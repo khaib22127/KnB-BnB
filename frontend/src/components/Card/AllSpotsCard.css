@@ -30,6 +30,7 @@
     height: 250px;
     max-width: 270px;
     max-height: 250px;
+    border-radius: 10px;
 }
 
 .city-state-rating-container {

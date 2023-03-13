@@ -1,0 +1,19 @@
+.main-single-container {
+   padding: 50px;
+   padding-top: 0;
+}
+
+.singleSpot-detail_container {
+    display: flex;
+    width: 70%;
+    /* border: black solid 2px; */
+}
+
+.detail-reserve-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: black solid 1px;
+}
