@@ -2,12 +2,11 @@
 import './AllSpotsCard.css'
 
 const AllSpotsCard = ({ spot }) => {
-  console.log("spot:", spot.id);
 
   return (
     <div className="SpotsCard_container">
 
-      <div className="SpotCard-Child" key={spot.id}>
+      <div className="SpotCard-Image-container" key={spot.id}>
         <img
           src={spot.previewImage}
           alt={`some-${spot.id}-preview`}
@@ -25,7 +24,7 @@ const AllSpotsCard = ({ spot }) => {
             : ` ★New`}
         </span>
       </div>
-      <div>{`$${(spot.price).toFixed(2)} night`}</div>
+      <div>{`$${spot.price} night`}</div>
 
     </div>
   );
