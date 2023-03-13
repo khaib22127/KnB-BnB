@@ -62,7 +62,7 @@ export const getAllSpots = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpots(data));
-    
+
   }
   return response;
 };
@@ -139,7 +139,7 @@ export const editUserSpot = (spot, spotId) => async (dispatch) => {
 
 
 // initial state
-let initialState = { allSpots: {}, oneSpot: {} };
+let initialState = { allSpots: {}, singleSpot: {} };
 
 //Spots Reducer
 const spotsReducer = (state = initialState, action) => {
@@ -154,12 +154,12 @@ const spotsReducer = (state = initialState, action) => {
 
     case GET_SPOT_BY_ID:
       const oneSpot = action.spotId;
-      newState.oneSpot = oneSpot;
+      newState.singleSpot = oneSpot;
       return newState;
 
       case GET_SPOTS_OF_USER:
         const userSpot = normalizingData(action.spots.Spots);
-        newState.oneSpot = {...userSpot};
+        newState.singleSpot = {...userSpot};
         return newState;
 
         case UPDATE_SPOT_OF_USER:

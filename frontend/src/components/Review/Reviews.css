@@ -1,0 +1,9 @@
+
+.post-your-review-container {
+    display: flex;
+    width: 200px;
+    padding: 10px;
+    font-size: 22px;
+    justify-content: space-between;
+    align-items: flex-end;
+}

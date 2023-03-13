@@ -1,18 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as reviewsActions from "../../store/review";
-
-import { createSpotReview, getSpotReviews } from "../../store/review";
-import { useModal } from "../../context/Modal";
 import { Popup } from "./Reviews";
-import { useParams } from "react-router-dom";
-
+import "./ReviewsCreate.css";
 import { getSpotsBySpotId } from "../../store/spots";
 
-const ReviewsCreate = () => {
-  const { spotId } = useParams();
+const ReviewsCreate = ({ reviews }) => {
   const dispatch = useDispatch();
-  const { closeModal } = useModal();
 
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
@@ -20,54 +14,30 @@ const ReviewsCreate = () => {
   const [clicked, setClicked] = useState(false);
 
   const currentUser = useSelector((state) => state.session.user);
-  const spot = useSelector((state) => state.spots.oneSpot);
+  const spot = useSelector((state) => state.spots.singleSpot);
 
   const reviewsFromSpot = useSelector((state) => state.reviews.SpotReview);
 
-  // console.log("looking for ++ currentUser ++ in create reviews: ===> ", currentUser.id);
-
-  // console.log(
-  //   "looking for ++ spot ++ in create reviews: ===> ",
-  //   spot.ownerId !== currentUser.id
-  // );
-
-  let reviewUserId;
-  Object.values(reviewsFromSpot).find((ele) => (reviewUserId = ele.userId));
-
-  // console.log(
-  //   "looking for ++ reviewUserId ++ in create reviews: ===> ",
-  //   reviewUserId
-  // );
-
-  //   useEffect(() => {
-  //   let err = [];
-  //   //  if (reviewUserId === currentUser.id) {
-  //   //        err.push("You already have a post review");
-  //   //     }
-  //   // if (stars < 0 || stars > 5) {
-  //   //   err.push("Stars must be an integer from 1 to 5");
-  //   // }
-  //   dispatch(reviewsActions.getSpotReviews(+spotId))
-  //   dispatch(reviewsActions.createSpotReview(spot.id))
-
-  //   setErrors(err);
-  // }, [dispatch, spotId]);
 
   const number = (num) => {
     return Number(num);
   };
 
+  let reviewUserId;
+  Object.values(reviews).forEach((ele) => {
+    if (!currentUser) return null;
+    if (currentUser.id === ele.userId) {
+      reviewUserId = ele.userId;
+      return reviewUserId;
+    }
+    return (reviewUserId = ele.userId);
+  });
+
+
   const submitReviewHandler = (e) => {
     e.preventDefault();
     setErrors([]);
-    // if (reviewUserId === currentUser.id) {
-    //   setErrors(["You already have a post review"]);
-    // }
-    // if (stars < 0 || stars > 5) {
-    //   setErrors(["Stars must be an integer from 1 to 5"]);
-    //   setStars("");
-    // }
-    // if (errors.length === 0) {
+
     return dispatch(
       reviewsActions.createSpotReview(
         {
@@ -87,7 +57,6 @@ const ReviewsCreate = () => {
         const data = await res.json();
         if (data && data.errors) return setErrors(data.errors);
       });
-    // }
   };
 
   const togglePopup = () => {
@@ -96,8 +65,6 @@ const ReviewsCreate = () => {
     setStars("");
     setErrors([]);
   };
-
-  // if (!currentUser) return null;
 
   if (!reviewsFromSpot) return null;
 
@@ -111,8 +78,8 @@ const ReviewsCreate = () => {
   return (
     <div>
       {!currentUser ||
-      currentUser?.id === reviewUserId ||
-      currentUser?.id === spot.ownerId ? null : (
+(currentUser.id === reviewUserId) ||
+      currentUser?.id === spot?.ownerId ? null : (
         <div>
           <input
             id="post-your-review-btn"
@@ -122,14 +89,6 @@ const ReviewsCreate = () => {
           />
         </div>
       )}
-
-      {/* {errors.length > 0 && (
-          <ul className="error-list">
-            {Object.values(errors).map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-        )} */}
 
       {currentUser && (
         <div>

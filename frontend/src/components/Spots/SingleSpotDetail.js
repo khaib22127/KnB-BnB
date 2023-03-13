@@ -1,8 +1,6 @@
-import NumReviewAvgRating from "../Card/ReviewNumAvgRating";
-import SingleSpotImages from "./SingleSpotImages";
 
 const SingleSpotDetail = ({ singleSpot }) => {
-  // console.log("single spot detail:====> ", singleSpot)
+
 if (!singleSpot) return null;
 
 
