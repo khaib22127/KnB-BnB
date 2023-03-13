@@ -1,5 +1,6 @@
 import { csrfFetch } from "./csrf";
 import { normalizingData } from "./spots";
+import { restoreUser } from "./session";
 
 // Action Type
 const GET_SPOT_REVIEWS = "review/GET_SPOT_REVIEWS";
@@ -32,6 +33,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpotReviews(data));
+    dispatch(restoreUser())
     return data;
   }
 };
@@ -69,8 +71,7 @@ const reviewReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SPOT_REVIEWS:
       const spotReviews = action.reviews;
-      // console.log("review reducer: ====> ", spotReviews)
-      newState.SpotReview = {...spotReviews};
+      newState.SpotReview = normalizingData(spotReviews);
       return newState;
     case CREATE_REVIEW_FOR_SPOT:
       // return {newState, [action.type.id]: {...action.review}}
