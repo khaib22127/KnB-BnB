@@ -1,0 +1,55 @@
+/* @mixin grid-min-max-cols($min-cols, $max-cols, $cols-min-width, $grid-row-gap: 0px, $grid-column-gap: 0px) {
+    --min-cols: #{$min-cols};
+    --max-cols: #{$max-cols};
+    --cols-min-width: #{$cols-min-width};
+    --grid-row-gap: #{$grid-row-gap};
+    --grid-column-gap: #{$grid-column-gap};
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, min((100%/var(--min-cols) - var(--grid-column-gap)*(var(--min-cols) - 1)/var(--min-cols)), max(var(--cols-min-width), (100%/var(--max-cols) - var(--grid-column-gap)*(var(--max-cols) - 1)/var(--max-cols))))));
+    gap: $grid-row-gap $grid-column-gap;
+} */
+
+.AllSpots_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 20px;
+    justify-items: center;
+    padding: 40px;
+
+    /* display: grid;
+        grid-gap: 1em;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+}
+
+
+#image-of-house {
+    display: flex;
+    width: 270px;
+    height: 250px;
+    max-width: 270px;
+    max-height: 250px;
+}
+
+.city-state-rating-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* @media only screen and (min-width: 500px) {
+    .wrapper {
+        grid-template-columns: 20% auto;
+        grid-template-areas: "header   header" "sidebar  content" "sidebar2 sidebar2" "footer   footer";
+    }
+} */
+
+/* @media only screen and (min-width: 600px) {
+    .wrapper {
+        grid-gap: 20px;
+        grid-template-columns: 120px auto 120px;
+        grid-template-areas: "header  header  header" "sidebar content sidebar2" "footer  footer  footer";
+        max-width: 600px;
+    }
+} */

@@ -1,0 +1,12 @@
+.sign-up-container {
+    display: flex;
+        height: 17rem;
+        align-items: center;
+        width: 25rem;
+        flex-direction: column;
+        padding: 30%
+}
+
+.signup-summit-btn{
+    padding: 1rem;
+}

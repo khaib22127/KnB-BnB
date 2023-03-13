@@ -1,0 +1,14 @@
+.login-container {
+display: flex;
+height: 15rem;
+align-items: center;
+width: 25rem;
+flex-direction: column;
+padding: 25%
+};
+
+
+
+.login-button-container {
+padding: 2%;
+}
