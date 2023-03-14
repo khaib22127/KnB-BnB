@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import ReviewsCreate from "./ReviewsCreate";
 import NumReviewAvgRating from "../Card/ReviewNumAvgRating";
 import ReviewsItem from "./ReviewsItem";
+import * as reviewsActions from "../../store/review";
 
 export const Popup = (props) => {
   return (
@@ -29,9 +30,14 @@ const Reviews = () => {
 
   const reviews = useSelector((state) => state.reviews.SpotReview);
 
+  const userReviews = useSelector(state => state.reviews)
+
+  console.log("user reviews: ====> ", userReviews)
+
 
   useEffect(() => {
-    dispatch(getSpotReviews(+spotId));
+    dispatch(reviewsActions.getSpotReviews(+spotId));
+    dispatch(reviewsActions.getUserReviews())
   }, [dispatch, spotId]);
 
   return (

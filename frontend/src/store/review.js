@@ -4,12 +4,20 @@ import { restoreUser } from "./session";
 
 // Action Type
 const GET_SPOT_REVIEWS = "review/GET_SPOT_REVIEWS";
+const GET_USER_REVIEWS = "review/GET_USER_REVIEWS";
 const CREATE_REVIEW_FOR_SPOT = "review/CREATE_REVIEW_FOR_SPOT";
 const DELETE_SPOT_REVIEW = "review/DELETE_SPOT_REVIEW";
 
 // Action Creator
 export const loadSpotReviews = (reviews) => {
   return { type: GET_SPOT_REVIEWS, reviews };
+};
+
+export const loadUserReviews = (reviews) => {
+  return {
+    type: GET_USER_REVIEWS,
+    reviews,
+  };
 };
 
 export const creatReviewForSpot = (review) => {
@@ -33,9 +41,21 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpotReviews(data));
-    dispatch(restoreUser())
+    dispatch(restoreUser());
     return data;
   }
+};
+
+//Thunk
+// GET /api/reviews/current
+export const getUserReviews = () => async (dispatch) => {
+  const response = await csrfFetch("/api/reviews/current");
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(loadUserReviews(data));
+    dispatch(loadSpotReviews(data));
+  }
+  return response;
 };
 
 // POST /api/spots/:spotId/reviews
@@ -64,21 +84,31 @@ export const deleteReviewFromSpot = (reviewId) => async (dispatch) => {
   return data;
 };
 
-const initialState = { SpotReview: {} };
+const initialState = { SpotReview: {}, User: {} };
 
 const reviewReducer = (state = initialState, action) => {
   let newState = { ...state };
   switch (action.type) {
+
     case GET_SPOT_REVIEWS:
       const spotReviews = action.reviews;
       newState.SpotReview = normalizingData(spotReviews);
       return newState;
+
+case GET_USER_REVIEWS:
+  const userReviews = action.reviews.SpotReview
+  console.log(" ====> review reducer:", newState)
+  newState.User = userReviews;
+  return newState;
+
     case CREATE_REVIEW_FOR_SPOT:
       // return {newState, [action.type.id]: {...action.review}}
       return newState;
+
     case DELETE_SPOT_REVIEW:
-// delete newState[action.payload.id]
+      // delete newState[action.payload.id]
       return newState;
+
     default:
       return state;
   }

@@ -7,7 +7,7 @@ const GET_ALL_SPOTS = "spots/GET_ALL_SPOTS";
 const GET_SPOT_BY_ID = "spots/GET_SPOT_BY_ID";
 const GET_SPOTS_OF_USER = "spots/GET_SPOTS_OF_USER";
 const UPDATE_SPOT_OF_USER = "spots/UPDATE_SPOT_OF_USER";
-const ADD_SPOT = "spot/ADD_SPOT"
+const ADD_SPOT = "spot/ADD_SPOT";
 const CREATE_SPOT_IMAGE = "spotImages/CREATE_SPOT_IMAGE";
 
 // Action Creator
@@ -35,25 +35,23 @@ export const loadUserSpots = (spots) => {
 export const updateUserSpot = (spotId) => {
   return {
     type: UPDATE_SPOT_OF_USER,
-    spotId
-  }
-}
-
+    spotId,
+  };
+};
 
 const addSpot = (spot) => {
   return {
     type: ADD_SPOT,
-    spot
-  }
-}
+    spot,
+  };
+};
 
 export const addImage = (image) => {
   return {
     type: CREATE_SPOT_IMAGE,
-  image
-  }
-}
-
+    image,
+  };
+};
 
 //Thunk
 // GET "/api/spots"
@@ -62,7 +60,6 @@ export const getAllSpots = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpots(data));
-
   }
   return response;
 };
@@ -92,10 +89,10 @@ export const getUserSpots = () => async (dispatch) => {
 //Thunk
 // POST "/api/spots"
 export const createSpot = (spot, spotId) => async (dispatch) => {
-  const response = await csrfFetch('/api/spots', {
+  const response = await csrfFetch("/api/spots", {
     method: "POST",
-    body: JSON.stringify(spot)
-  })
+    body: JSON.stringify(spot),
+  });
   const data = await response.json();
   if (response.ok) {
     // dispatch(addSpot(data.spot))
@@ -103,9 +100,7 @@ export const createSpot = (spot, spotId) => async (dispatch) => {
     return data;
   }
   return response;
-}
-
-
+};
 
 //Thunk
 // POST "/api/spots/:spotId/images"
@@ -113,30 +108,29 @@ export const createSpotImages = (image, spotId) => async (dispatch) => {
   // let {url, preview} = image;
   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: "POST",
-    body: JSON.stringify(image)
+    body: JSON.stringify(image),
   });
-  const data = await response.json()
-  if(response.ok) {
+  const data = await response.json();
+  if (response.ok) {
     await dispatch(getSpotsBySpotId(spotId));
     return data;
   }
-  return response
-}
+  return response;
+};
 
 //Thunk
 // PUT "/api/spots/spotId"
 export const editUserSpot = (spot, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
-    body: JSON.stringify(spot)
-  })
+    body: JSON.stringify(spot),
+  });
   const data = await response.json();
   if (response.ok) {
     dispatch(updateUserSpot(data));
   }
   return response;
-}
-
+};
 
 // initial state
 let initialState = { allSpots: {}, singleSpot: {} };
@@ -157,13 +151,13 @@ const spotsReducer = (state = initialState, action) => {
       newState.singleSpot = oneSpot;
       return newState;
 
-      case GET_SPOTS_OF_USER:
-        const userSpot = normalizingData(action.spots.Spots);
-        newState.singleSpot = {...userSpot};
-        return newState;
+    case GET_SPOTS_OF_USER:
+      const userSpot = normalizingData(action.spots.Spots);
+      newState.singleSpot = { ...userSpot };
+      return newState;
 
-        case UPDATE_SPOT_OF_USER:
-          return newState;
+    case UPDATE_SPOT_OF_USER:
+      return newState;
 
     //       case ADD_SPOT:
     //       console.log("=========>  oneSpot:::::========> ", action)
@@ -180,12 +174,10 @@ const spotsReducer = (state = initialState, action) => {
   }
 };
 
-
 export const normalizingData = (data) => {
   const obj = {};
-  (data).forEach((ele) => (obj[ele.id] = ele));
+  data.forEach((ele) => (obj[ele.id] = ele));
   return obj;
 };
-
 
 export default spotsReducer;

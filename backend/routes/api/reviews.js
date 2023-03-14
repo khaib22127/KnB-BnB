@@ -12,7 +12,10 @@ const {
 
 const router = express.Router();
 const { check, body } = require("express-validator");
-const { userValidationErrors, reviewValidationErrors } = require("../../utils/validation");
+const {
+  userValidationErrors,
+  reviewValidationErrors,
+} = require("../../utils/validation");
 
 const { requireAuth, userReviewPermission } = require("../../utils/auth");
 
@@ -84,19 +87,23 @@ router.get("/current", requireAuth, async (req, res) => {
     review.push(ele.toJSON());
   }
 
+  if (!review) {
+    return null;
+  }
+
   review.forEach((spot) => {
-    if (!spot.Spot.SpotImages[0]) {
-      spot.Spot.SpotImages = [];
-      spot.Spot.previewImage = spot.Spot.SpotImages;
-      delete spot.Spot.SpotImages;
-    } else {
+    if (spot.Spot.SpotImages.length > 0) {
       for (let image of spot.Spot.SpotImages) {
         if (image.preview === true) {
-          spot.Spot.SpotImages = spot.Spot.SpotImages[0].url;
+          spot.Spot.SpotImages = image.url;
           spot.Spot.previewImage = spot.Spot.SpotImages;
           delete spot.Spot.SpotImages;
         }
       }
+    } else {
+      // spot.Spot.SpotImages = {};
+      spot.Spot.previewImage = spot.Spot.SpotImages;
+      delete spot.Spot.SpotImages;
     }
   });
 
@@ -108,16 +115,15 @@ router.get("/current", requireAuth, async (req, res) => {
 router.get("/:spotId/reviews", async (req, res) => {
   const spotId = req.params.spotId;
 
-const reviews = await Review.findAll({
-    where: {spotId: spotId},
+  const reviews = await Review.findAll({
+    where: { spotId: spotId },
     include: [
-        {
-            model: User,
-            attributes: ['id', 'firstName', 'lastName']
-        }
-    ]
-
-})
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
+    ],
+  });
 
   const spot = await Spot.findByPk(spotId, {
     attributes: [],

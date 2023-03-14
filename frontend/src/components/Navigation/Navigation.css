@@ -57,3 +57,8 @@
     cursor: pointer;
     transition: box-shadow 0.2 ease;
 }
+
+.create-new-spot-profileBtn {
+display: flex;
+align-items: center;
+}

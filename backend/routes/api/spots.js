@@ -353,7 +353,7 @@ router.get("/current", requireAuth, async (req, res) => {
     }
 
     if (images.SpotImages[0] === undefined) {
-      images.SpotImages[0] = 0;
+      images.SpotImages[0] = [];
       images.previewImage = images.SpotImages[0];
     }
 
