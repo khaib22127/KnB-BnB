@@ -1,0 +1,12 @@
+
+
+.new-spot-form {
+    display: flex;
+        width: 40vw;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-content: flex-start;
+        justify-content: space-between;
+        align-items: stretch;
+}
+

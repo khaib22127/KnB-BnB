@@ -327,7 +327,7 @@ router.get("/current", requireAuth, async (req, res) => {
         attributes: [
           [
             sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-            "avgStarRating",
+            "avgRating",
           ],
         ],
       },
@@ -347,9 +347,9 @@ router.get("/current", requireAuth, async (req, res) => {
   spots.forEach((images) => {
     if (images.Reviews[0] === undefined) {
       images.Reviews[0] = 0;
-      images.avgStarRating = images.Reviews[0];
+      images.avgRating = images.Reviews[0];
     } else if (images.Reviews[0]) {
-      images.avgStarRating = images.Reviews[0].avgStarRating;
+      images.avgRating = images.Reviews[0].avgRating;
     }
 
     if (images.SpotImages[0] === undefined) {

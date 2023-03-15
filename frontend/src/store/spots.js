@@ -86,37 +86,66 @@ export const getUserSpots = () => async (dispatch) => {
   return response;
 };
 
+// //Thunk
+// // POST "/api/spots"
+// export const createSpot = (spot, spotId) => async (dispatch) => {
+//   const response = await csrfFetch("/api/spots", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(spot),
+//   });
+//   const data = await response.json();
+//   if (response.ok) {
+//     dispatch(addSpot(data.spot))
+// dispatch(createSpotImages(spotId));
+//     await dispatch(getSpotsBySpotId(data.id));
+//     return data;
+//   }
+//   return response;
+// };
+
 //Thunk
 // POST "/api/spots"
-export const createSpot = (spot, spotId) => async (dispatch) => {
+export const createSpot = (spot, image) => async (dispatch) => {
   const response = await csrfFetch("/api/spots", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(spot),
   });
   const data = await response.json();
   if (response.ok) {
-    // dispatch(addSpot(data.spot))
-    await dispatch(getSpotsBySpotId(data.id));
-    return data;
+    dispatch(addSpot(data.spot));
+    const createSpotImages = await csrfFetch(`/api/spots/${data.id}/images`, {
+      method: "POST",
+      body: JSON.stringify(image),
+    });
+    if (createSpotImages.ok) {
+      return data;
+    }
   }
   return response;
 };
 
-//Thunk
-// POST "/api/spots/:spotId/images"
-export const createSpotImages = (image, spotId) => async (dispatch) => {
-  // let {url, preview} = image;
-  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-    method: "POST",
-    body: JSON.stringify(image),
-  });
-  const data = await response.json();
-  if (response.ok) {
-    await dispatch(getSpotsBySpotId(spotId));
-    return data;
-  }
-  return response;
-};
+// //Thunk
+// // POST "/api/spots/:spotId/images"
+// export const createSpotImages = (image, spotId) => async (dispatch) => {
+//   // let {url, preview} = image;
+//   const response = await csrfFetch(`/api/spots/${image.id}/images`, {
+//     method: "POST",
+//     body: JSON.stringify(image),
+//   });
+//   const data = await response.json();
+//   if (response.ok) {
+//     dispatch(addImage(data.image))
+//     // await dispatch(getSpotsBySpotId(image.id));
+//     return data;
+//   }
+//   return response;
+// };
 
 //Thunk
 // PUT "/api/spots/spotId"
@@ -141,14 +170,13 @@ const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SPOTS:
       const allSpots = normalizingData(action.spots.Spots);
-      // console.log("reducer spots:=====> ", action.spots)
       // const spots = {...newState, [action.spots.Spots.id]: action.spots}
-      newState.allSpots = allSpots;
+      newState.allSpots = { ...allSpots };
       return newState;
 
     case GET_SPOT_BY_ID:
       const oneSpot = action.spotId;
-      newState.singleSpot = oneSpot;
+      newState.singleSpot = { ...oneSpot };
       return newState;
 
     case GET_SPOTS_OF_USER:

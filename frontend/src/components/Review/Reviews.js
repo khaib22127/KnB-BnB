@@ -32,7 +32,7 @@ const Reviews = () => {
 
   const userReviews = useSelector(state => state.reviews)
 
-  console.log("user reviews: ====> ", userReviews)
+  // console.log("user reviews: ====> ", userReviews)
 
 
   useEffect(() => {

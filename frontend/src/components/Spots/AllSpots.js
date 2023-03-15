@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as spotsAction from "../../store/spots";
+import * as reviewsActions from '../../store/review.js'
 import AllSpotsCard from "../Card/AllSpotsCard";
 import { Link, NavLink, useHistory } from "react-router-dom";
 
@@ -14,15 +15,20 @@ const AllSpots = () => {
     dispatch(spotsAction.getAllSpots())
       .then(() =>
       setIsLoaded(true))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) console.log(res);
-      });
+      // .catch(async (res) => {
+      //   const data = await res.json();
+      //   if (data && data.errors) console.log(res);
+      // });
   }, [dispatch]);
+
+//   const onClickSubmitHandler = () => {
+// dispatch(spotsAction.getSpotsBySpotId(spots.id));
+// dispatch(reviewsActions.getSpotReviews(spots.id));
+//   }
 
   if (!spots) return null;
 
-  //   console.log("spots:", spots)
+    // console.log("spots:", spots.id)
 
   return (
     <div className="AllSpots_container">
@@ -31,6 +37,7 @@ const AllSpots = () => {
           key={`ka12: ${spot.id}`}
           to={`/spots/${spot.id}`}
           style={{ textDecoration: "none", color: "black" }}
+        
         >
           <AllSpotsCard spot={spot} />
         </Link>
