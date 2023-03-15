@@ -101,7 +101,7 @@ router.get("/current", requireAuth, async (req, res) => {
         }
       }
     } else {
-      // spot.Spot.SpotImages = {};
+      spot.Spot.SpotImages = [];
       spot.Spot.previewImage = spot.Spot.SpotImages;
       delete spot.Spot.SpotImages;
     }

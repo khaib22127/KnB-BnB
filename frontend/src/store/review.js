@@ -10,7 +10,10 @@ const DELETE_SPOT_REVIEW = "review/DELETE_SPOT_REVIEW";
 
 // Action Creator
 export const loadSpotReviews = (reviews) => {
-  return { type: GET_SPOT_REVIEWS, reviews };
+  return {
+    type: GET_SPOT_REVIEWS,
+    reviews
+  };
 };
 
 export const loadUserReviews = (reviews) => {
@@ -41,7 +44,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpotReviews(data));
-    dispatch(restoreUser());
+    // dispatch(restoreUser());
     return data;
   }
 };
@@ -53,7 +56,7 @@ export const getUserReviews = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadUserReviews(data));
-    dispatch(loadSpotReviews(data));
+    return data;
   }
   return response;
 };
@@ -84,7 +87,7 @@ export const deleteReviewFromSpot = (reviewId) => async (dispatch) => {
   return data;
 };
 
-const initialState = { SpotReview: {}, User: {} };
+const initialState = { SpotReview: {}, User: null };
 
 const reviewReducer = (state = initialState, action) => {
   let newState = { ...state };
@@ -92,12 +95,11 @@ const reviewReducer = (state = initialState, action) => {
 
     case GET_SPOT_REVIEWS:
       const spotReviews = action.reviews;
-      newState.SpotReview = normalizingData(spotReviews);
+      newState.SpotReview = (spotReviews);
       return newState;
 
 case GET_USER_REVIEWS:
-  const userReviews = action.reviews.SpotReview
-  console.log(" ====> review reducer:", newState)
+  const userReviews = action.reviews.Reviews
   newState.User = userReviews;
   return newState;
 

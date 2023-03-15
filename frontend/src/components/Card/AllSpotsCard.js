@@ -3,6 +3,8 @@ import './AllSpotsCard.css'
 
 const AllSpotsCard = ({ spot }) => {
 
+  // console.log("<=== All spot card: ==> ", spot)
+
   return (
     <div className="SpotsCard_container">
 

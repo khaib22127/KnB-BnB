@@ -1,0 +1,112 @@
+.create-new-spot-form {
+display: flex;
+    padding-bottom: 10rem;
+    height: 140vh;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* .new-spot-form {
+    display: flex;
+    width: 500px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: flex-start;
+} */
+
+.error-msg {
+    color: red;
+}
+
+
+/* .form-padding {
+    padding-top: .4em;
+} */
+
+
+#top {
+    width: 69%;
+}
+
+#City {
+    display: flex;
+    width: 95%;
+    max-width: 100%;
+}
+
+#State {
+    display: flex;
+    width: 95%;
+    max-width: 100%;
+}
+
+#city-state {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 100%;
+    justify-content: space-between;
+}
+
+#lat {
+    width: 50%;
+}
+
+#lng {
+    width: 50%;
+}
+
+#Latitude {
+    display: flex;
+    width: 95%;
+    max-width: 100%;
+}
+
+#Longitude {
+    display: flex;
+    width: 97%;
+    max-width: 100%;
+}
+
+#lat-lng {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 100%;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: black solid 1px;
+}
+
+#Price {
+    width: 96%;
+    max-width: 100%;
+}
+
+.url-input_image {
+    border-bottom: black 2px solid;
+    padding-bottom: 2rem;
+}
+
+#preview-image {
+    width: 99%;
+    max-width: 100%;
+}
+
+.url_input {
+    padding-bottom: 1.5rem;
+}
+
+.create-spot-submit-btn {
+    display: flex;
+    padding-top: 1rem;
+    justify-content: center;
+}
+
+.spot_input_{
+    display: inline;
+    border-bottom: black 2px solid;
+    padding-bottom: 1rem;
+}
