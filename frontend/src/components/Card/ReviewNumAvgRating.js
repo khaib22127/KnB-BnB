@@ -1,7 +1,7 @@
 import './Card.css'
 
 const NumReviewAvgRating = ({ singleSpot }) => {
-    // console.log("NumReviewSpot:;===>", spot )
+    console.log("NumReviewSpot:;===>", singleSpot.numReviews )
   return (
     <>
         {/* <div id="review-card"> */}
@@ -11,12 +11,12 @@ const NumReviewAvgRating = ({ singleSpot }) => {
               ? `★${Number(singleSpot?.avgStarRating).toFixed(2)}`
               : null}
           </li>
-          &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;
 
-          <li>{singleSpot.numReviews ? `${singleSpot.numReviews} Reviews` : "★New"}</li>
-
+          {(singleSpot.numReviews > 0) ? <li>{`${singleSpot.numReviews} Reviews`}</li>  : "★New"}
+{}
       </span>
-        {/* </div> */}
+
     </>
   );
 };

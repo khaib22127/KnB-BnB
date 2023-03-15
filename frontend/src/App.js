@@ -5,6 +5,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation/Navigation";
 import AllSpots from "./components/Spots/AllSpots";
 import SingleSpot from "./components/Spots/SingleSpot";
+import CurrentUserSpot from "./components/SpotsOfUser/CurrentUserSpot";
+import CurrentUserSpotCreate from "./components/SpotsOfUser/CurrentUserSpotCreate";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,8 +24,12 @@ function App() {
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
-          <Route path={`/spots/current`}></Route>
-          <Route exact path={`/spots/new`}></Route>
+          <Route path={`/spots/current`}>
+            <CurrentUserSpot/>
+          </Route>
+          <Route exact path={`/spots/new`}>
+            <CurrentUserSpotCreate/>
+          </Route>
           <Route exact path={`/spots/:spotId`}>
             <SingleSpot/>
           </Route>

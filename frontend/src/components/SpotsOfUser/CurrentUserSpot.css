@@ -1,0 +1,37 @@
+.current-user-manage-spot-page {
+    padding: 50px;
+}
+
+.current-user_spot-Image {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.current-user-spot-image-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.manage-title-page {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 20px;
+}
+
+.update-delete-spot-btn {
+    padding-top: 15px;
+}
+
+.d-btn {
+    background: gray;
+    color: white;
+}
+
+#edit-spot-btn {
+    padding-right: 20px;
+}
