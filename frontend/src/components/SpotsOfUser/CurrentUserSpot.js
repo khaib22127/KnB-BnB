@@ -6,7 +6,6 @@ import AllSpotsCard from "../Card/AllSpotsCard";
 import SpotFormCard from "../Card/SpotFormCard";
 import "./CurrentUserSpot.css";
 
-
 const CurrentUserSpot = () => {
   // const {spotId} = useParams()
   const history = useHistory();
@@ -15,7 +14,12 @@ const CurrentUserSpot = () => {
   const [errors, setErrors] = useState([]);
 
   const spots = useSelector((state) => state.spots.singleSpot);
-  console.log("spots: ===> ", spots.previewImage);
+
+  console.log("spots: ===> ", spots);
+
+  Object.values(spots).map(ele=>
+console.log("ellllleeee:", ele)
+    )
 
   useEffect(() => {
     dispatch(spotsAction.getUserSpots())
@@ -27,8 +31,9 @@ const CurrentUserSpot = () => {
   }, [dispatch, errors]);
 
   const createClickHandler = async () => {
-    history.push("/spots/new");
-    setIsLoaded(true);
+    history.push("/spots/new").then(()=> {
+      setIsLoaded(true);
+    })
   };
 
   const editClickHandler = async (spot) => {
@@ -40,39 +45,49 @@ const CurrentUserSpot = () => {
     history.push(`/spots/${spot.id}/edit`);
   };
 
+  const deleteClickHandler = async (spot) => {
+    // spot.preventDefault();
+    await dispatch(spotsAction.deleteSpot(spot.id)).then(()=> {
+
+      // dispatch(spotsAction.getUserSpots())
+    }
+    );
+  };
+
+  if (!spots) return null;
+
   return (
+
     <div className="current-user-manage-spot-page">
       <div className="manage-title-page">
         <h2>Mangage Your Spots</h2>
-        {isLoaded ? (
-          <button
-            className="create-new-spot-button"
-            onClick={createClickHandler}
-          >
-            Create a New Spot
-          </button>
-        ) : (
-          <SpotFormCard spot={spots} />
-        )}
+
+        <button className="create-new-spot-button" onClick={createClickHandler}>
+          Create a New Spot
+        </button>
       </div>
 
       <div className="current-user_spot-Image">
         {Object.values(spots).map((spot) => (
-          <div>
-            <div className="current-user-spot-image-container">
-              <AllSpotsCard spot={spot} />
+          <div >
+            <div key={`${spots.id}-user-spot`} className="current-user-spot-image-container">
+              <AllSpotsCard spot={spot} key={`${spots.id}-user_spot`} />
               <div className="update-delete-spot-btn">
-                  <span id="edit-spot-btn">
-                      <button
+                <span id="edit-spot-btn">
+                  <button
                     className="edit-user-spot-btnn d-btn"
                     onClick={() => editClickHandler(spot)}
                   >
                     Update
                   </button>
-                  </span>
+                </span>
                 <span>
-
-                  <button className="delete-user-spot-btn d-btn">Delete</button>
+                  <button
+                    className="delete-user-spot-btn d-btn"
+                    onClick={() => deleteClickHandler(spot)}
+                  >
+                    Delete
+                  </button>
                 </span>
               </div>
             </div>

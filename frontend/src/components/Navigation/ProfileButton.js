@@ -5,7 +5,8 @@ import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal/LoginForm";
 import SignupFormModal from "../SignupFormModal/SignupForm";
-import { Link, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
+import * as spotsAction from "../../store/spots";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -39,12 +40,13 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
-    (history.push("/"));
+    history.push("/");
   };
 
 const manageSpotClickHandler = () => {
   closeMenu()
-  history.push(`/spots/current`)
+  history.push(`/spots/current`).then(dispatch(spotsAction.getUserSpots()))
+
 }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -80,13 +82,13 @@ const manageSpotClickHandler = () => {
                   padding: "5px",
                 }}
               >
-                <Link
+                <NavLink
                   id="manage-spots-selection"
                   to={`/spots/current`}
-                  onClick={manageSpotClickHandler}
+                  onClick={() => manageSpotClickHandler}
                 >
                   Manage Spots
-                </Link>
+                </NavLink>
               </div>
 
               <div

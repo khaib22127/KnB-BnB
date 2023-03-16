@@ -53,26 +53,28 @@ function LoginFormModal() {
             ))}
           </ul>
           <div className="username-input-container">
-            <label>
-              Username or Email
+            {/* <label> */}
+              {/* Username or Email */}
               <input
                 type="text"
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
                 required
+                placeholder="Username or Email"
               />
-            </label>
+            {/* </label> */}
           </div>
           <div className="password-container">
-            <label>
-              Password
+            {/* <label> */}
+              {/* Password */}
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
                 required
               />
-            </label>
+            {/* </label> */}
           </div>
           <br />
           <div className="login-button-container">
