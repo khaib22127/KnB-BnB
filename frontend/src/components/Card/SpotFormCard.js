@@ -8,89 +8,115 @@ import "./SpotFormCard.css";
 const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [country, setCountry] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState();
-  const [previewImage, setPreviewImage] = useState("");
+  const [address, setAddress] = useState(newSpot.address);
+  const [city, setCity] = useState(newSpot.city);
+  const [state, setState] = useState(newSpot.state);
+  const [country, setCountry] = useState(newSpot.country);
+  const [lat, setLat] = useState(newSpot.lat);
+  const [lng, setLng] = useState(newSpot.lng);
+  const [name, setName] = useState(newSpot.name);
+  const [description, setDescription] = useState(newSpot.description);
+  const [price, setPrice] = useState(newSpot.price);
+  const [previewImage, setPreviewImage] = useState(newSpot.previewImage);
   const [url, setUrl] = useState("");
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [errors, setErrors] = useState([]);
-  const [customErrors, setCustomError] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [customErrors, setCustomError] = useState({});
 
   const spots = useSelector((state) => state.spots.singleSpot);
+console.log("Spots in spotform:::", spots.id);
+  // const handlerUrl = (e) => {
+  //   const setValue =
+  //     // previewImage?.slice(-4) === ".jpg" ||
+  //     previewImage?.slice(-4) === ".png"
+  //     // previewImage?.slice(-5) === ".jpeg";
 
+  //     if (setValue) setPreviewImage(e.target.value)
+  // }
   //   console.log("newSpot this is from SpotForm.js::::", newSpot);
   //   console.log("spots from Spot Form.js::::", spots);
 
-  const submitNewSpotHandler = (e) => {
-    let err = { ...errors };
-    e.preventDefault();
-    setErrors([]);
-    setCustomError([]);
-    dispatch(
-      (newSpot = spotsAction.createSpot(
-        {
-          // ...newSpot,
-          address,
-          city,
-          state,
-          country,
-          lat,
-          lng,
-          name,
-          description,
-          price,
-        },
-        { url: previewImage, preview: true }
-      ))
-    )
-      .then((res) => {
-        //   dispatch(
-        //     (spotsAction.createSpotImages(
-        //      {
-        //         previewImage: url,
-        //         preview: true,
-        //       }
-        //     ), newSpot.id)
-        //   )
-        history.push(`/spots/${res.id}`);
-      })
-      .catch(async (response) => {
-        const data = await response.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
-    const last4 = previewImage.slice(-4);
-    const last5 = previewImage.slice(-5);
+// useEffect(() => {
+//   setIsLoaded(isLoaded)
+//   // setErrors({})
+//   //  let err = { ...errors };
+//   //   if (description.length < 30) {
+//   //     err.description = "Description needs a minimum of 30 characters";
+//   //   }
+//   dispatch(spotsAction.addImage(previewImage))
+//   dispatch(spotsAction.addSpot(newSpot))
 
-    if (description.length < 30) {
-      err.description = "Description needs a minimum of 30 characters";
-    }
-    if (
-      !previewImage &&
-      last4 !== ".png" &&
-      last4 !== ".jpg" &&
-      last4 !== ".jpeg"
-    ) {
-      err.previewImage = "Preview image is required.";
-      err.url = "Image URL must end in .png, .jpg, or .jpeg";
-    }
-    setCustomError(err);
-    console.log(
-      "previewImage erro:::",
-      !previewImage || last4 !== ".png" || last4 !== ".jpg" || last5 !== ".jpeg"
-    );
+// }, [dispatch, isLoaded])
+
+const submitNewSpotHandler = (e) => {
+  e.preventDefault();
+  setErrors({});
+  setCustomError([]);
+  let err = { ...customErrors };
+
+  dispatch(
+    (newSpot = spotsAction.createSpot(
+      {
+        // ...newSpot,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price,
+      },
+      { url: previewImage, preview: true }
+      ))
+      )
+      .then((res) => {
+              history.push(`/spots/${res.id}`);
+              dispatch(spotsAction.getSpotsBySpotId(res.id))
+            })
+            .catch(async (response) => {
+              const data = await response.json();
+              if (data && data.errors) setErrors(data.errors);
+              const last4 = previewImage?.slice(-4);
+              const last5 = previewImage?.slice(-5);
+
+              if (description.length < 30) {
+                err.description = "Description needs a minimum of 30 characters";
+                setErrors(err);
+                //  setIsLoaded(false)
+              }
+              if (
+                !previewImage &&
+                (last4 !== ".png" ||
+      last4 !== ".jpg" ||
+      last5 !== ".jpeg")
+      ) {
+        err.previewImage = "Preview image is required.";
+        err.url = "Image URL must end in .png, .jpg, or .jpeg";
+        // setErrors(err);
+        // setIsLoaded(false);
+        // return false
+      }
+      setCustomError(err);
+    });
+
+    console.log("true or not:", Object.keys(errors).length > 0)
+    setErrors(err);
+
+    // console.log("description length: ===> ", description.length < 30);
   };
+
+const onClickHandler = () => {
+  setIsLoaded(true)
+}
+
+  if (!newSpot) return null;
 
   return (
     <div className="create-new-spot-form">
-      <form className="new-spot-form" onSubmit={submitNewSpotHandler}>
+     <form className="new-spot-form" onSubmit={submitNewSpotHandler}>
         <h1>{formType}</h1>
         <h2 style={{ marginBottom: "2px" }}>Where's your place located?</h2>
         <p
@@ -205,15 +231,17 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
         <textarea
           type="text"
           id="Description"
+          minLength={30}
+          required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Please write at least 30 characters"
         ></textarea>
-        {<label className="error-msg">{customErrors.description}</label>}
+        {<label className="error-msg">{errors.description}</label>}
 
         {/* <span className="spot_input_"></span> */}
 
-        <label style={{borderTop: "black solid 2px"}} htmlFor="Name">
+        <label style={{ borderTop: "black solid 2px" }} htmlFor="Name">
           <h2 style={{ marginBottom: "2px" }}>Create a title for your spot</h2>
           <p
             style={{
@@ -285,7 +313,9 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
               id="preview-image"
               value={previewImage}
               onChange={(e) => setPreviewImage(e.target.value)}
+              // pattern='*.jpn'
               placeholder="Preview Image URL"
+              required
             ></input>
             {<label className="error-msg">{customErrors.previewImage}</label>}
           </div>
@@ -294,8 +324,8 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
             <input
               type="text"
               id="preview-image"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              // value={url}
+              // onChange={(e) => setUrl(e.target.value)}
               placeholder="Image URL"
             ></input>
             {<label className="error-msg">{customErrors.url}</label>}
@@ -306,8 +336,8 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
             <input
               type="text"
               id="preview-image"
-              value=""
-              onChange={(e) => setPreviewImage(e.target.value)}
+              // value=""
+              // onChange={(e) => setPreviewImage(e.target.value)}
               placeholder="Image URL"
             ></input>
           </div>
@@ -317,8 +347,8 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
             <input
               type="text"
               id="preview-image"
-              value=""
-              onChange={(e) => setPreviewImage(e.target.value)}
+              // value=""
+              // onChange={(e) => setPreviewImage(e.target.value)}
               placeholder="Image URL"
             ></input>
           </div>
@@ -328,18 +358,21 @@ const SpotFormCard = ({ newSpot, newImage, formType, spot }) => {
             <input
               type="text"
               id="preview-image"
-              value=""
-              onChange={(e) => setPreviewImage(e.target.value)}
+              // value=""
+              // onChange={(e) => setPreviewImage(e.target.value)}
               placeholder="Image URL"
             ></input>
           </div>
         </div>
 
-        <div className="create-spot-submit-btn">
-          <button style={{ color: "white", background: "red" }} type="submit">
+{!isLoaded &&  <div className="create-spot-submit-btn">
+          <button style={{ color: "white", background: "red" }} type="submit" onClick={()=> onClickHandler}>
             Create Spot
           </button>
-        </div>
+        </div> }
+
+
+
       </form>
     </div>
   );

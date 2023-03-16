@@ -9,6 +9,7 @@ const GET_SPOTS_OF_USER = "spots/GET_SPOTS_OF_USER";
 const UPDATE_SPOT_OF_USER = "spots/UPDATE_SPOT_OF_USER";
 const ADD_SPOT = "spot/ADD_SPOT";
 const CREATE_SPOT_IMAGE = "spotImages/CREATE_SPOT_IMAGE";
+const REMOVE_SPOT = "spot/REMOVE_SPOT"
 
 // Action Creator
 export const loadSpots = (spots) => {
@@ -39,7 +40,7 @@ export const updateUserSpot = (spotId) => {
   };
 };
 
-const addSpot = (spot) => {
+export const addSpot = (spot) => {
   return {
     type: ADD_SPOT,
     spot,
@@ -51,6 +52,13 @@ export const addImage = (image) => {
     type: CREATE_SPOT_IMAGE,
     image,
   };
+};
+
+export const removeSpot = (spotId) => {
+  return {
+    type: REMOVE_SPOT,
+    spotId
+  }
 };
 
 //Thunk
@@ -126,6 +134,7 @@ export const createSpot = (spot, image) => async (dispatch) => {
     if (createSpotImages.ok) {
       return data;
     }
+    // dispatch(getSpotsBySpotId(data.id))
   }
   return response;
 };
@@ -161,6 +170,19 @@ export const editUserSpot = (spot, spotId) => async (dispatch) => {
   return response;
 };
 
+
+export const deleteSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE"
+  });
+  if (response.ok) {
+    dispatch(removeSpot(spotId))
+  }
+  dispatch(getUserSpots())
+  return response;
+}
+
+
 // initial state
 let initialState = { allSpots: {}, singleSpot: {} };
 
@@ -186,6 +208,12 @@ const spotsReducer = (state = initialState, action) => {
 
     case UPDATE_SPOT_OF_USER:
       return newState;
+
+      case REMOVE_SPOT:
+        // const spoot = action
+        // console.log("sppot in spot reducer:::  ", spoot)
+
+        return newState
 
     //       case ADD_SPOT:
     //       console.log("=========>  oneSpot:::::========> ", action)

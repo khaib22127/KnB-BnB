@@ -1,7 +1,7 @@
 import './Card.css'
 
 const NumReviewAvgRating = ({ singleSpot }) => {
-    console.log("NumReviewSpot:;===>", singleSpot.numReviews )
+    // console.log("NumReviewSpot:;===>", singleSpot.numReviews )
   return (
     <>
         {/* <div id="review-card"> */}

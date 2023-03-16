@@ -24,7 +24,7 @@ const AllSpots = () => {
 //   const onClickSubmitHandler = () => {
 // dispatch(spotsAction.getSpotsBySpotId(spots.id));
 // dispatch(reviewsActions.getSpotReviews(spots.id));
-//   }
+  // }
 
   if (!spots) return null;
 
@@ -37,7 +37,7 @@ const AllSpots = () => {
           key={`ka12: ${spot.id}`}
           to={`/spots/${spot.id}`}
           style={{ textDecoration: "none", color: "black" }}
-        
+        // onClick={onClickSubmitHandler}
         >
           <AllSpotsCard spot={spot} />
         </Link>

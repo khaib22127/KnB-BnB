@@ -36,10 +36,19 @@ const CurrentUserSpotCreate = () => {
     name: "",
     description: "",
     price: "",
+    previewImage: ""
   };
   // const newImage =  ()
 
-  return <SpotFormCard newSpot={newSpot} formType="Create New A Spot" />;
+
+
+  return (<div>
+    {/* <form> */}
+
+    <SpotFormCard newSpot={newSpot} formType="Create New A Spot" />
+    {/* </form> */}
+  </div>)
+
 };
 
 export default CurrentUserSpotCreate;
