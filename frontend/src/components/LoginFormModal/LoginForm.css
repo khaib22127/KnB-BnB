@@ -1,14 +1,16 @@
 .login-container {
-display: flex;
-height: 15rem;
-align-items: center;
-width: 25rem;
-flex-direction: column;
-padding: 25%
-};
+    display: flex;
+    height: 15rem;
+    width: 25rem;
+    padding: 2%;
+    align-items: center;
+    flex-direction: column;
+}
+
+;
 
 
 
 .login-button-container {
-padding: 2%;
+    padding: 2%;
 }

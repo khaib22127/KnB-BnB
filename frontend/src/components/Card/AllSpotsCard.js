@@ -5,6 +5,8 @@ const AllSpotsCard = ({ spot }) => {
 
   // console.log("<=== All spot card: ==> ", spot)
 
+  if (!spot) return null
+
   return (
     <div className="SpotsCard_container">
 

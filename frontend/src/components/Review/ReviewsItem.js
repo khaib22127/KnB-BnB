@@ -4,22 +4,28 @@ import { useParams } from "react-router-dom";
 
 import { getSpotsBySpotId } from "../../store/spots";
 
-const ReviewsItem = ({ reviews }) => {
+const ReviewsItem = ({ ele }) => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.session.user);
 
   let reviewId;
+  const review1 = useSelector((state) => state.reviews.User);
 
-  Object.values(reviews).forEach((ele) => {
+  if (!review1) return null;
+  //  if (!reviews) return null;
+
+  Object.values(review1).forEach((elle) => {
     if (!currentUser) return null;
-    if (currentUser.id === ele.userId) {
-      reviewId = ele.id;
+    if (currentUser.id === elle.userId) {
+      reviewId = elle.id;
       return reviewId;
     }
-    return (reviewId = ele.id);
+
+    return (reviewId = elle.id);
   });
+// console.log("loooking for this", reviews)
 
   const deleteButtonHandler = () => {
     dispatch(reviewsActions.deleteReviewFromSpot(reviewId)).then(() => {
@@ -28,16 +34,17 @@ const ReviewsItem = ({ reviews }) => {
     });
   };
 
+if (!ele) return null;
 
   return (
     <div className="single-review-container">
-      {Object.values(reviews).map((ele) => (
+
         <div key={`reviews${ele.id}`} className={`review-from`}>
           <div className={`reviews${ele.id} newly-created-review`}>
             <div>{ele.User?.firstName}</div>
             <div>{ele.createdAt.slice(0, 10)}</div>
             <div>{ele.review}</div>
-            {currentUser && currentUser.id === ele.userId && (
+            {(
               <div>
                 <button type="submit" onClick={deleteButtonHandler}>
                   DELETE
@@ -46,7 +53,7 @@ const ReviewsItem = ({ reviews }) => {
             )}
           </div>
         </div>
-      ))}
+
     </div>
   );
 };

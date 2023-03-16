@@ -1,7 +1,6 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import { getSpotReviews } from "../../store/review";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReviewsCreate from "./ReviewsCreate";
 import NumReviewAvgRating from "../Card/ReviewNumAvgRating";
@@ -22,7 +21,6 @@ export const Popup = (props) => {
 };
 
 const Reviews = () => {
-
   const { spotId } = useParams();
   const dispatch = useDispatch();
 
@@ -30,15 +28,17 @@ const Reviews = () => {
 
   const reviews = useSelector((state) => state.reviews.SpotReview);
 
-  const userReviews = useSelector(state => state.reviews)
-
-  // console.log("user reviews: ====> ", userReviews)
-
+  // const userReviews = useSelector((state) => state.reviews);
+  const currentUser = useSelector((state) => state.session.user);
+  // console.log("loooking for this", reviews);
+  console.log("current user: ", currentUser)
 
   useEffect(() => {
     dispatch(reviewsActions.getSpotReviews(+spotId));
-    dispatch(reviewsActions.getUserReviews())
+    // dispatch(reviewsActions.getUserReviews())
   }, [dispatch, spotId]);
+
+  if (!reviews) return null;
 
   return (
     <>
@@ -47,7 +47,9 @@ const Reviews = () => {
       </div>
       <div>{<ReviewsCreate reviews={reviews} />}</div>
       <div className="ReviewItem-review-container">
-        {<ReviewsItem reviews={reviews}/>}
+        {Object.values(reviews).map((ele) => (
+          <ReviewsItem ele={ele} key={ele.id}/>
+        ))}
       </div>
     </>
   );
