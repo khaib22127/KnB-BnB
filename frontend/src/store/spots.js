@@ -94,6 +94,8 @@ export const getUserSpots = () => async (dispatch) => {
   return response;
 };
 
+
+
 // //Thunk
 // // POST "/api/spots"
 // export const createSpot = (spot, spotId) => async (dispatch) => {
@@ -166,6 +168,8 @@ export const editUserSpot = (spot, spotId) => async (dispatch) => {
   const data = await response.json();
   if (response.ok) {
     dispatch(updateUserSpot(data));
+    // dispatch(getSpotsBySpotId(spotId))
+    return data
   }
   return response;
 };
@@ -207,6 +211,8 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
 
     case UPDATE_SPOT_OF_USER:
+      const spotId = action.spotId.id
+      console.log("<====edit reducer====>>::: ", spotId)
       return newState;
 
       case REMOVE_SPOT:
