@@ -55,7 +55,7 @@ const CurrentUserSpot = () => {
   if (!spots) return null;
 
   return (
-    <div className="current-user-manage-spot-page">
+   isLoaded && <div className="current-user-manage-spot-page">
       <div className="manage-title-page">
         <h2>Mangage Your Spots</h2>
 
@@ -66,7 +66,7 @@ const CurrentUserSpot = () => {
 
       <div className="current-user_spot-Image" key={spotId}>
         {Object.values(spots).map((spot) => (
-          <div>
+          <div key={`user-Spot_${spot.id}`}>
             <div
               key={`${Math.random(spots.createdAt)}-user-spot `}
               className="current-user-spot-image-container"
