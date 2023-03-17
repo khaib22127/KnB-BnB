@@ -13,6 +13,7 @@ const AllSpots = () => {
 
   useEffect(() => {
     dispatch(spotsAction.getAllSpots())
+    // setIsLoaded(true)
       .then(() =>
       setIsLoaded(true))
       // .catch(async (res) => {
@@ -39,7 +40,7 @@ const AllSpots = () => {
           style={{ textDecoration: "none", color: "black" }}
         // onClick={onClickSubmitHandler}
         >
-          <AllSpotsCard spot={spot} />
+          {<AllSpotsCard spot={spot} isLoaded={isLoaded} />}
         </Link>
       ))}
     </div>

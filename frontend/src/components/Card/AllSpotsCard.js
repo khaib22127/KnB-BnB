@@ -1,17 +1,18 @@
 
 import './AllSpotsCard.css'
 
-const AllSpotsCard = ({ spot }) => {
+const AllSpotsCard = ({ spot, isLoaded }) => {
 
   // console.log("<=== All spot card: ==> ", spot)
 
   if (!spot) return null
 
   return (
-    <div className="SpotsCard_container">
+  <div className="SpotsCard_container">
 
-      <div className="SpotCard-Image-container" key={spot.id}>
+      <div className="SpotCard-Image-container" key={`${spot.id}-allSpot`}>
         <img
+        key={`house-image_${spot.id}`}
           src={spot.previewImage}
           alt={`some-${spot.id}-preview`}
           id="image-of-house"

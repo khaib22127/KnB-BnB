@@ -26,12 +26,11 @@ function App() {
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
-          <Route path={`/spots/current`}>
+          <Route exact path={`/spots/current`} isLoaded={isLoaded}>
             <CurrentUserSpot/>
           </Route>
           <Route exact path={`/spots/new`}>
             <CurrentUserSpotCreate/>
-            <Reviews/>
           </Route>
           <Route exact path={`/spots/:spotId`}>
             <SingleSpot/>
