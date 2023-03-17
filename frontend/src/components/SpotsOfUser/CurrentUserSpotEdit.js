@@ -12,42 +12,24 @@ const CurrentUserSpotEdit = () => {
   const [errors, setErrors] = useState([]);
   const spots = useSelector((state) => state.spots.singleSpot[spotId]);
 
-console.log("Spots in create spot:::", spots)
+// console.log("Spots in create spot:::", typeof spotId)
 
   useEffect(() => {
+    // dispatch(spotsAction.editUserSpot(spots))
     dispatch(spotsAction.getUserSpots())
-         dispatch(spotsAction.editUserSpot(+spotId))
-      .then(setIsLoaded(true));
-  }, [dispatch]);
+      // setIsLoaded(true);
+  }, [dispatch, spotId]);
 
   const editSubmitFormHandler = (e) => {
     e.preventDefault();
     setErrors([]);
   };
 
+  if (!spots) return null;
+
   return (
     <div key={spots.id}>
-      {/* <form className="edit-spot-form" onSubmit={editSubmitFormHandler}>
-        <div>
-          <h1>Update Your Spot</h1>
-          <h2>Where's your place located?</h2>
-          <p>
-            Guests will only get your exact address once they booked a
-            reservation.
-          </p>
-        </div>
-        {Object.values(spots).map((spot) => (
-          <div>
-            <label>Country</label>
-
-            <input></input>
-            <label>Street Address</label>
-
-            <input></input>
-          </div>
-        ))}
-      </form> */}
-      <SpotFormCard newSpot={spots} formType="Update"/>
+      <SpotFormCard newSpot={spots} formType="Update" submitType="Edit"/>
     </div>
   );
 };

@@ -7,23 +7,24 @@ import SpotFormCard from "../Card/SpotFormCard";
 import "./CurrentUserSpot.css";
 
 const CurrentUserSpot = () => {
-  // const {spotId} = useParams()
+  let spotId;
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const spots = useSelector((state) => state.spots.singleSpot);
+  const userSpot = useSelector((state) => state.spots.singleSpot);
 
-  console.log("spots: ===> ", spots);
+  Object.values(spots).map((ele) => (spotId = ele.id));
 
-  Object.values(spots).map(ele=>
-console.log("ellllleeee:", ele)
-    )
-
+  console.log("spots: ===> ", spotId);
   useEffect(() => {
     dispatch(spotsAction.getUserSpots())
-      .then(setIsLoaded(true))
+      .then(() => {
+        setIsLoaded(true);
+        // spotsAction.loadSpotById()
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -31,9 +32,7 @@ console.log("ellllleeee:", ele)
   }, [dispatch, errors]);
 
   const createClickHandler = async () => {
-    history.push("/spots/new").then(()=> {
-      setIsLoaded(true);
-    })
+    history.push("/spots/new").then(setIsLoaded(true));
   };
 
   const editClickHandler = async (spot) => {
@@ -43,21 +42,19 @@ console.log("ellllleeee:", ele)
     //    history.push(`spots/${spot.id}/edit`)
     //  })
     history.push(`/spots/${spot.id}/edit`);
+    setIsLoaded(true);
   };
 
   const deleteClickHandler = async (spot) => {
     // spot.preventDefault();
-    await dispatch(spotsAction.deleteSpot(spot.id)).then(()=> {
-
+    await dispatch(spotsAction.deleteSpot(spot.id)).then(() => {
       // dispatch(spotsAction.getUserSpots())
-    }
-    );
+    });
   };
 
   if (!spots) return null;
 
   return (
-
     <div className="current-user-manage-spot-page">
       <div className="manage-title-page">
         <h2>Mangage Your Spots</h2>
@@ -67,14 +64,20 @@ console.log("ellllleeee:", ele)
         </button>
       </div>
 
-      <div className="current-user_spot-Image">
+      <div className="current-user_spot-Image" key={spotId}>
         {Object.values(spots).map((spot) => (
-          <div >
-            <div key={`${spots.id}-user-spot`} className="current-user-spot-image-container">
-              <AllSpotsCard spot={spot} key={`${spots.id}-user_spot`} />
+          <div>
+            <div
+              key={`${Math.random(spots.createdAt)}-user-spot `}
+              className="current-user-spot-image-container"
+            >
+
+                <AllSpotsCard spot={spot} key={`${spots.id}-user_spot`} isLoaded={isLoaded} />
+
               <div className="update-delete-spot-btn">
                 <span id="edit-spot-btn">
                   <button
+                    key={`${spot.id}-spot_btnnn`}
                     className="edit-user-spot-btnn d-btn"
                     onClick={() => editClickHandler(spot)}
                   >

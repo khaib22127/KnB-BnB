@@ -45,7 +45,7 @@ const CurrentUserSpotCreate = () => {
   return (<div>
     {/* <form> */}
 
-    <SpotFormCard newSpot={newSpot} formType="Create New A Spot" />
+    <SpotFormCard newSpot={newSpot} formType="Create New A Spot" submitType="Create" />
     {/* </form> */}
   </div>)
 

@@ -7,8 +7,9 @@ import LoginFormModal from "../LoginFormModal/LoginForm";
 import SignupFormModal from "../SignupFormModal/SignupForm";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
+import CurrentUserSpot from '../SpotsOfUser/CurrentUserSpot'
 
-function ProfileButton({ user }) {
+function ProfileButton({ user, isLoaded }) {
   const dispatch = useDispatch();
   const history =  useHistory()
   const [showMenu, setShowMenu] = useState(false);
@@ -43,10 +44,11 @@ function ProfileButton({ user }) {
     history.push("/");
   };
 
-const manageSpotClickHandler = () => {
+const manageSpotClickHandler = (e) => {
+  e.preventDefault();
+  dispatch(spotsAction.getUserSpots())
   closeMenu()
-  history.push(`/spots/current`).then(dispatch(spotsAction.getUserSpots()))
-
+  history.push(`/spots/current`)
 }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -75,21 +77,22 @@ const manageSpotClickHandler = () => {
             </li> */}
                 <p>{user.email}</p>
               </div>
-
-              <div
-                style={{
-                  borderBottom: "black 2px solid",
-                  padding: "5px",
-                }}
-              >
-                <NavLink
-                  id="manage-spots-selection"
-                  to={`/spots/current`}
-                  onClick={() => manageSpotClickHandler}
+              {showMenu && (
+                <div
+                  style={{
+                    borderBottom: "black 2px solid",
+                    padding: "5px",
+                  }}
                 >
-                  Manage Spots
-                </NavLink>
-              </div>
+                  <NavLink
+                    id="manage-spots-selection"
+                    to={`/spots/current`}
+                    onClick={manageSpotClickHandler}
+                  >
+                    Manage Spots
+                  </NavLink>
+                </div>
+              )}
 
               <div
                 className="logout-btn"
