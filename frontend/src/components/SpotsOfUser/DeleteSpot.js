@@ -42,11 +42,6 @@ const DeleteSpot = ({ spot }) => {
           </button>
         </div>
       </div>
-
-      {/* <div>
-    <h1>Confirm Delete</h1>
-    <button onClick={() => deleteButtonHandler()}>Yes</button>
-</div> */}
     </>
   );
 };
