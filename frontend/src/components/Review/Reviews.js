@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getSpotReviews } from "../../store/review";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReviewsCreate from "./ReviewsCreate";
@@ -23,8 +22,6 @@ export const Popup = (props) => {
 const Reviews = ({spot}) => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-
-  // const spot = useSelector((state) => state.spots.singleSpot);
 
   const reviews = useSelector((state) => state.reviews.SpotReview);
 

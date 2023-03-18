@@ -206,7 +206,6 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
 
     case UPDATE_SPOT_OF_USER:
-      const spotId = action.spotId.id;
       return newState;
 
     case REMOVE_SPOT:

@@ -31,7 +31,7 @@ const CurrentUserSpot = () => {
   }, [dispatch, errors]);
 
   const createClickHandler = async () => {
-    history.push("/spots/new").then(setIsLoaded(true));
+    history.push("/spots/new")
   };
 
   const editClickHandler = async (spot) => {
@@ -43,7 +43,7 @@ const CurrentUserSpot = () => {
   if (!spots) return null;
 
   return (
-    isLoaded && (
+
       <div className="current-user-manage-spot-page">
         <div className="manage-title-page">
           <h2>Mangage Your Spots</h2>
@@ -97,7 +97,6 @@ const CurrentUserSpot = () => {
           ))}
         </div>
       </div>
-    )
   );
 };
 
