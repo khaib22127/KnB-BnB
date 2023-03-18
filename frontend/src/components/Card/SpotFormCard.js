@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
 import "./SpotFormCard.css";
@@ -22,32 +22,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState({});
   const [customErrors, setCustomError] = useState({});
-
-//   useEffect(() => {
-// // onClickHandler(true)
-
-//    if (Object.keys(errors).length > 0 || Object.keys(customErrors).length > 0) {
-//     return;
-//    }
-//   },[errors, customErrors])
-
-//  const onClickHandler = (isLoaded) => {
-//       setIsLoaded(!isLoaded);
-//     };
-
-    // let splittedUrl;
-    // let LastSplittedUrl;
-    // if (previewImage) {
-    //    splittedUrl = previewImage.split(".");
-    //    LastSplittedUrl = splittedUrl[splittedUrl.length - 1];
-    // }
-    //  if (
-    //    LastSplittedUrl !== "png" &&
-    //    LastSplittedUrl !== "jpg" &&
-    //    LastSplittedUrl !== "jpeg"
-    //  ) {
-    //    setCustomError("Image URL must end in .png, .jpg, or .jpeg")
-    //  }
 
   const submitNewSpotHandler = (e) => {
     e.preventDefault();
@@ -95,7 +69,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
             description,
             price,
           },
-          // { url: previewImage, preview: true },
           newSpot.id
         ))
       )
@@ -109,36 +82,29 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
         });
     }
 
-
-
     if (description.length < 30) {
       err.description = "Description needs a minimum of 30 characters";
     }
     if (!previewImage) {
       err.previewImage = "Preview image is required.";
-    };
+    }
 
     let splittedUrl = previewImage.split(".");
     let LastSplittedUrl = splittedUrl[splittedUrl.length - 1];
 
     if (
-     ( LastSplittedUrl !== "png" &&
+      LastSplittedUrl !== "png" &&
       LastSplittedUrl !== "jpg" &&
-      LastSplittedUrl !== "jpeg")
+      LastSplittedUrl !== "jpeg"
     ) {
       err.url = "Image URL must end in .png, .jpg, or .jpeg";
     } else {
-      return
+      return;
     }
 
     setCustomError(err);
   };
 
-  // if (Object.keys(errors).length > 0 || Object.keys(customErrors).length > 0) {
-  //  return;
-  // }
-  console.log("errrors:=====> ", errors);
-  console.log("custom errrors:=====> ", Object.keys(customErrors).length > 0);
   if (!newSpot) return null;
 
   return (
@@ -394,10 +360,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
 
         {!isLoaded && (
           <div className="create-spot-submit-btn">
-            <button
-              style={{ color: "white", background: "red" }}
-              type="submit"
-            >
+            <button style={{ color: "white", background: "red" }} type="submit">
               Create Spot
             </button>
           </div>

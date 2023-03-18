@@ -21,7 +21,7 @@ const validateSpot = [
     userValidationErrors
 ];
 
-// Get all of the Current User's Bookings 
+// Get all of the Current User's Bookings
 // GET /api/bookings/current
 router.get('/current', requireAuth, async (req, res) => {
 
@@ -235,13 +235,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 "statusCode": 404
             })
         }
-        // else if (newBookingStartDate < todayDate) {
-        //     res.status(404);
-        //     return res.json({
-        //         "message": "Can not book date in the past!!",
-        //         "statusCode": 404
-        //     })
-        // }
+       
 
         if (newBookingStartDate >= currentBookingStartDate
             && newBookingStartDate <= currentBookingEndDate
