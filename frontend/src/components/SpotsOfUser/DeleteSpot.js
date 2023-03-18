@@ -1,8 +1,7 @@
-import { useState } from "react";
+
 import { useModal } from "../../context/Modal";
 import * as spotsAction from "../../store/spots";
-import * as reviewsActions from "../../store/review";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import '../Card/DeleteConfirmationForm.css'
 
 const DeleteSpot = ({ spot }) => {
@@ -10,11 +9,7 @@ const DeleteSpot = ({ spot }) => {
   const dispatch = useDispatch();
 
   const deleteButtonHandler = () => {
-  dispatch(spotsAction.deleteSpot(spot.id)).then(() => {
-      // dispatch(spotsAction.getUserSpots())
-    });
-
-
+  dispatch(spotsAction.deleteSpot(spot.id))
   };
 
   const cancelSubmit = () => {
