@@ -5,9 +5,8 @@ import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal/LoginForm";
 import SignupFormModal from "../SignupFormModal/SignupForm";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import {  NavLink, useHistory } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
-import CurrentUserSpot from '../SpotsOfUser/CurrentUserSpot'
 
 function ProfileButton({ user}) {
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ function ProfileButton({ user}) {
       if (!ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
-      // history.push('/')
     };
 
     document.addEventListener("click", closeMenu);
@@ -130,7 +128,7 @@ const manageSpotClickHandler = (e) => {
                 modalComponent={<SignupFormModal />}
               />
 
-           
+
             </div>
           </>
         )}

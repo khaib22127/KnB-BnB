@@ -32,6 +32,7 @@ const CurrentUserSpot = () => {
 
   const createClickHandler = async () => {
     history.push("/spots/new")
+    setIsLoaded(true);
   };
 
   const editClickHandler = async (spot) => {
@@ -44,7 +45,7 @@ const CurrentUserSpot = () => {
 
   return (
 
-      <div className="current-user-manage-spot-page">
+   isLoaded &&   <div className="current-user-manage-spot-page">
         <div className="manage-title-page">
           <h2>Mangage Your Spots</h2>
 
