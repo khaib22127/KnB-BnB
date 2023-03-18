@@ -1,14 +1,12 @@
-import * as reviewsActions from "../../store/review";
-import { useSelector, useDispatch } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import DeleteConfirmationForm from "../Card/DeleteConfirmationForm";
 
-import { getSpotsBySpotId } from "../../store/spots";
 
 const ReviewsItem = ({ ele }) => {
   const { spotId } = useParams();
-  const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.session.user);
 
@@ -28,14 +26,6 @@ const ReviewsItem = ({ ele }) => {
     return (reviewId = elle.id);
   });
 
-  const deleteButtonHandler = (e) => {
-   e.preventDefault();
-    dispatch(reviewsActions.deleteReviewFromSpot(reviewId)).then(() => {
-      dispatch(reviewsActions.getSpotReviews(+spotId));
-      dispatch(getSpotsBySpotId(+spotId));
-      // window.confirm("are you sure?")
-    });
-  };
 
 if (!ele) return null;
 

@@ -8,7 +8,6 @@ import SingleSpot from "./components/Spots/SingleSpot";
 import CurrentUserSpot from "./components/SpotsOfUser/CurrentUserSpot";
 import CurrentUserSpotCreate from "./components/SpotsOfUser/CurrentUserSpotCreate";
 import CurrentUserSpotEdit from "./components/SpotsOfUser/CurrentUserSpotEdit";
-import Reviews from "./components/Review/Reviews";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,11 +25,11 @@ function App() {
           <Route exact path={"/"}>
             <AllSpots />
           </Route>
-          <Route exact path={`/spots/current`}>
-            <CurrentUserSpot/>
-          </Route>
-          <Route exact path={`/spots/new`}>
+          <Route path={`/spots/new`}>
             <CurrentUserSpotCreate/>
+          </Route>
+          <Route path={`/spots/current`}>
+            <CurrentUserSpot/>
           </Route>
           <Route exact path={`/spots/:spotId`}>
             <SingleSpot/>
