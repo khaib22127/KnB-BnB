@@ -52,6 +52,7 @@ const ReviewsCreate = ({ reviews }) => {
         // reset();
         dispatch(reviewsActions.getSpotReviews(spot.id));
         dispatch(getSpotsBySpotId(spot.id));
+        dispatch(reviewsActions.getUserReviews())
       })
       .catch(async (res) => {
         const data = await res.json();

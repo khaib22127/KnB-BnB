@@ -46,11 +46,21 @@ function SignupFormModal() {
     ]);
   };
   let isDiabled;
-    if (!email || !username || !firstName || !lastName || !password || password.length < 6 || username.length < 4) {
-      isDiabled = true
-    } else {
-      isDiabled = false
-    }
+  if (
+    !email ||
+    !username ||
+    !firstName ||
+    !lastName ||
+    !password ||
+    !confirmPassword ||
+    password.length < 6 ||
+    username.length < 4 ||
+    password !== confirmPassword
+  ) {
+    isDiabled = true;
+  } else {
+    isDiabled = false;
+  }
 
   return (
     <>

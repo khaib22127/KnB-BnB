@@ -2,8 +2,7 @@ import './SingleSpotImages.css'
 
 const SingleSpotImages = ({spot}) => {
 
-    // console.log("single spot images: ====> ", spot )
-    
+
   if (!spot) return null
     return (
       <>

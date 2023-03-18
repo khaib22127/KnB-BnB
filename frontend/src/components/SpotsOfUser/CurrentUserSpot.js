@@ -5,6 +5,8 @@ import * as spotsAction from "../../store/spots";
 import AllSpotsCard from "../Card/AllSpotsCard";
 import SpotFormCard from "../Card/SpotFormCard";
 import "./CurrentUserSpot.css";
+import OpenModalButton from "../OpenModalButton";
+import DeleteSpot from "./DeleteSpot";
 
 const CurrentUserSpot = () => {
   let spotId;
@@ -18,12 +20,11 @@ const CurrentUserSpot = () => {
 
   Object.values(spots).map((ele) => (spotId = ele.id));
 
-  console.log("spots: ===> ", spotId);
+
   useEffect(() => {
     dispatch(spotsAction.getUserSpots())
       .then(() => {
         setIsLoaded(true);
-        // spotsAction.loadSpotById()
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -45,59 +46,80 @@ const CurrentUserSpot = () => {
     setIsLoaded(true);
   };
 
-  const deleteClickHandler = async (spot) => {
-    // spot.preventDefault();
-    await dispatch(spotsAction.deleteSpot(spot.id)).then(() => {
-      // dispatch(spotsAction.getUserSpots())
-    });
-  };
+  // const deleteClickHandler = async (spot) => {
+  //   // spot.preventDefault();
+  //   await dispatch(spotsAction.deleteSpot(spot.id)).then(() => {
+  //     // dispatch(spotsAction.getUserSpots())
+  //   });
+  // };
 
   if (!spots) return null;
 
   return (
-   isLoaded && <div className="current-user-manage-spot-page">
-      <div className="manage-title-page">
-        <h2>Mangage Your Spots</h2>
+    isLoaded && (
+      <div className="current-user-manage-spot-page">
+        <div className="manage-title-page">
+          <h2>Mangage Your Spots</h2>
 
-        <button className="create-new-spot-button" onClick={createClickHandler}>
-          Create a New Spot
-        </button>
-      </div>
+          <button
+            className="create-new-spot-button"
+            onClick={createClickHandler}
+          >
+            Create a New Spot
+          </button>
+        </div>
 
-      <div className="current-user_spot-Image" key={spotId}>
-        {Object.values(spots).map((spot) => (
-          <div key={`user-Spot_${spot.id}`}>
-            <div
-              key={`${Math.random(spots.createdAt)}-user-spot `}
-              className="current-user-spot-image-container"
-            >
+        <div className="current-user_spot-Image" key={spotId}>
+          {Object.values(spots).map((spot) => (
+            <div key={`user-Spot_${spot.id}`}>
+              <div
+                key={`${Math.random(spots.createdAt)}-user-spot `}
+                className="current-user-spot-image-container"
+              >
+                <AllSpotsCard
+                  spot={spot}
+                  key={`${spots.id}-user_spot`}
+                  isLoaded={isLoaded}
+                />
 
-                <AllSpotsCard spot={spot} key={`${spots.id}-user_spot`} isLoaded={isLoaded} />
-
-              <div className="update-delete-spot-btn">
-                <span id="edit-spot-btn">
-                  <button
-                    key={`${spot.id}-spot_btnnn`}
-                    className="edit-user-spot-btnn d-btn"
-                    onClick={() => editClickHandler(spot)}
-                  >
-                    Update
-                  </button>
-                </span>
-                <span>
-                  <button
+                <div className="update-delete-spot-btn">
+                  <span id="edit-spot-btn">
+                    <button
+                      key={`${spot.id}-spot_btnnn`}
+                      className="edit-user-spot-btnn d-btn"
+                      onClick={() => editClickHandler(spot)}
+                    >
+                      Update
+                    </button>
+                  </span>
+                  <span>
+                    {/* <button
                     className="delete-user-spot-btn d-btn"
                     onClick={() => deleteClickHandler(spot)}
                   >
                     Delete
-                  </button>
-                </span>
+                  </button> */}
+
+                      {/* <button type="submit" onClick={deleteButtonHandler}>
+                    DELETE
+                  </button> */}
+                      <OpenModalButton
+                        buttonText="DELETE"
+                        modalComponent={
+                          <DeleteSpot
+                            spot={spot}
+
+                          />
+                        }
+                      />
+                   
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      {/* {Object.values(spots).map((spot) => (
+          ))}
+        </div>
+        {/* {Object.values(spots).map((spot) => (
         <div
           className="current-user-spot-previewImg"
           key={`current-user-spot${spot.id}`}
@@ -143,7 +165,8 @@ const CurrentUserSpot = () => {
           </div>
         </div>
       ))} */}
-    </div>
+      </div>
+    )
   );
 };
 

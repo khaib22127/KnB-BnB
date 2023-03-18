@@ -50,17 +50,17 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
   return response
 };
 
-// //Thunk
-// // GET /api/reviews/current
-// export const getUserReviews = () => async (dispatch) => {
-//   const response = await csrfFetch("/api/reviews/current");
-//   const data = await response.json();
-//   if (response.ok) {
-//     dispatch(loadUserReviews(data));
-//   }
-//   return data;
-//   // return response;
-// };
+//Thunk
+// GET /api/reviews/current
+export const getUserReviews = () => async (dispatch) => {
+  const response = await csrfFetch("/api/reviews/current");
+  const data = await response.json();
+  if (response.ok) {
+    dispatch(loadUserReviews(data));
+  }
+  return data;
+  // return response;
+};
 
 // POST /api/spots/:spotId/reviews
 export const createSpotReview = (review, spotId) => async (dispatch) => {
@@ -100,10 +100,10 @@ const reviewReducer = (state = initialState, action) => {
       newState.SpotReview = normalizingData(spotReviews);
       return newState;
 
-// case GET_USER_REVIEWS:
-//   const userReviews = action.reviews.Reviews
-//   newState.User = (userReviews);
-//   return newState;
+case GET_USER_REVIEWS:
+  const userReviews = action.reviews.Reviews
+  newState.User = (userReviews);
+  return newState;
 
     case CREATE_REVIEW_FOR_SPOT:
       // return {newState, [action.type.id]: {...action.review}}
