@@ -7,7 +7,6 @@ import "./SingleSpot.css";
 import SingleSpotReserve from "./SingleSpotReserve";
 import SingleSpotImages from "./SingleSpotImages";
 import Reviews from "../Review/Reviews";
-import * as reviewsActions from "../../store/review";
 
 
 const SingleSpot = () => {
