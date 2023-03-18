@@ -45,7 +45,7 @@ const CurrentUserSpot = () => {
 
   return (
 
-   isLoaded &&   <div className="current-user-manage-spot-page">
+ isLoaded && <div className="current-user-manage-spot-page">
         <div className="manage-title-page">
           <h2>Mangage Your Spots</h2>
 
@@ -66,7 +66,7 @@ const CurrentUserSpot = () => {
               >
                 <AllSpotsCard
                   spot={spot}
-                  key={`${spots.id}-user_spot`}
+                  // key={`${spots.id}-user_spot`}
                   isLoaded={isLoaded}
                 />
 
