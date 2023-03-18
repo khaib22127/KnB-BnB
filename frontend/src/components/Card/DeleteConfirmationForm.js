@@ -1,15 +1,12 @@
-import { useState } from "react";
 import { useModal } from "../../context/Modal";
 import * as spotsAction from "../../store/spots";
 import * as reviewsActions from "../../store/review";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./DeleteConfirmationForm.css";
 
 const DeleteConfirmationForm = ({ reviewId, spotId }) => {
-  const [delTask, setDelTask] = useState(false);
   const { closeModal } = useModal();
   const dispatch = useDispatch();
-  console.log("reviewId::: ", reviewId);
 
   const deleteButtonHandler = () => {
     dispatch(reviewsActions.deleteReviewFromSpot(reviewId)).then(() => {
@@ -26,9 +23,7 @@ const DeleteConfirmationForm = ({ reviewId, spotId }) => {
   return (
     <>
       <div className="container">
-        <div className="title_text">
-          Confirm Delete
-        </div>
+        <div className="title_text">Confirm Delete</div>
         <div className="confirmation-text">
           Are you sure you want to delete this review?
         </div>
@@ -46,11 +41,6 @@ const DeleteConfirmationForm = ({ reviewId, spotId }) => {
           </button>
         </div>
       </div>
-
-      {/* <div>
-    <h1>Confirm Delete</h1>
-    <button onClick={() => deleteButtonHandler()}>Yes</button>
-</div> */}
     </>
   );
 };
