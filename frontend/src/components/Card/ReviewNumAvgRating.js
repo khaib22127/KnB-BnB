@@ -1,10 +1,9 @@
 import './Card.css'
 
 const NumReviewAvgRating = ({ singleSpot }) => {
-    // console.log("NumReviewSpot:;===>", singleSpot.numReviews )
+
   return (
     <>
-        {/* <div id="review-card"> */}
       <span id='ul-review-card' >
           <li style={{listStyleType: "none"}}>
             {singleSpot.avgStarRating?.length !== 0

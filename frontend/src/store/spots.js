@@ -9,7 +9,7 @@ const GET_SPOTS_OF_USER = "spots/GET_SPOTS_OF_USER";
 const UPDATE_SPOT_OF_USER = "spots/UPDATE_SPOT_OF_USER";
 const ADD_SPOT = "spot/ADD_SPOT";
 const CREATE_SPOT_IMAGE = "spotImages/CREATE_SPOT_IMAGE";
-const REMOVE_SPOT = "spot/REMOVE_SPOT"
+const REMOVE_SPOT = "spot/REMOVE_SPOT";
 
 // Action Creator
 export const loadSpots = (spots) => {
@@ -57,8 +57,8 @@ export const addImage = (image) => {
 export const removeSpot = (spotId) => {
   return {
     type: REMOVE_SPOT,
-    spotId
-  }
+    spotId,
+  };
 };
 
 //Thunk
@@ -93,8 +93,6 @@ export const getUserSpots = () => async (dispatch) => {
   }
   return response;
 };
-
-
 
 // //Thunk
 // // POST "/api/spots"
@@ -169,23 +167,21 @@ export const editUserSpot = (spot, spotId) => async (dispatch) => {
   if (response.ok) {
     dispatch(updateUserSpot(data));
     // dispatch(getSpotsBySpotId(spotId))
-    return data
+    return data;
   }
   return response;
 };
 
-
 export const deleteSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: "DELETE"
+    method: "DELETE",
   });
   if (response.ok) {
-    dispatch(removeSpot(spotId))
+    dispatch(removeSpot(spotId));
   }
-  dispatch(getUserSpots())
+  dispatch(getUserSpots());
   return response;
-}
-
+};
 
 // initial state
 let initialState = { allSpots: {}, singleSpot: {} };
@@ -196,7 +192,6 @@ const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SPOTS:
       const allSpots = normalizingData(action.spots.Spots);
-      // const spots = {...newState, [action.spots.Spots.id]: action.spots}
       newState.allSpots = { ...allSpots };
       return newState;
 
@@ -211,25 +206,11 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
 
     case UPDATE_SPOT_OF_USER:
-      const spotId = action.spotId.id
-      console.log("<====edit reducer====>>::: ", spotId)
+      const spotId = action.spotId.id;
       return newState;
 
-      case REMOVE_SPOT:
-        // const spoot = action
-        // console.log("sppot in spot reducer:::  ", spoot)
-
-        return newState
-
-    //       case ADD_SPOT:
-    //       console.log("=========>  oneSpot:::::========> ", action)
-    //       return newState;
-
-    //       case CREATE_SPOT_IMAGE:
-    //         const spotImg = ([action.image])
-    //       newState.spots.oneSpot.SpotImages = spotImg
-    // console.log("**************   new State   :====> ", newState)
-    //       return newState;
+    case REMOVE_SPOT:
+      return newState;
 
     default:
       return state;

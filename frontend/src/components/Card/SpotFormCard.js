@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
 import "./SpotFormCard.css";
-// import CreateSpotImages from "./CreateSpotImages";
 
 const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const { spotId } = useParams();
@@ -19,36 +18,36 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const [description, setDescription] = useState(newSpot.description);
   const [price, setPrice] = useState(newSpot.price);
   const [previewImage, setPreviewImage] = useState(newSpot.previewImage);
-  const [url, setUrl] = useState("");
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState({});
   const [customErrors, setCustomError] = useState({});
 
-  const spots = useSelector((state) => state.spots.singleSpot);
+//   useEffect(() => {
+// // onClickHandler(true)
 
-  // const handlerUrl = (e) => {
-  //   const setValue =
-  //     // previewImage?.slice(-4) === ".jpg" ||
-  //     previewImage?.slice(-4) === ".png"
-  //     // previewImage?.slice(-5) === ".jpeg";
+//    if (Object.keys(errors).length > 0 || Object.keys(customErrors).length > 0) {
+//     return;
+//    }
+//   },[errors, customErrors])
 
-  //     if (setValue) setPreviewImage(e.target.value)
-  // }
-  //   console.log("newSpot this is from SpotForm.js::::", newSpot);
-  //   console.log("spots from Spot Form.js::::", spots);
+//  const onClickHandler = (isLoaded) => {
+//       setIsLoaded(!isLoaded);
+//     };
 
-  // useEffect(() => {
-  //   setIsLoaded(isLoaded)
-  //   // setErrors({})
-  //   //  let err = { ...errors };
-  //   //   if (description.length < 30) {
-  //   //     err.description = "Description needs a minimum of 30 characters";
-  //   //   }
-  //   dispatch(spotsAction.addImage(previewImage))
-  //   dispatch(spotsAction.addSpot(newSpot))
-
-  // }, [dispatch, isLoaded])
+    // let splittedUrl;
+    // let LastSplittedUrl;
+    // if (previewImage) {
+    //    splittedUrl = previewImage.split(".");
+    //    LastSplittedUrl = splittedUrl[splittedUrl.length - 1];
+    // }
+    //  if (
+    //    LastSplittedUrl !== "png" &&
+    //    LastSplittedUrl !== "jpg" &&
+    //    LastSplittedUrl !== "jpeg"
+    //  ) {
+    //    setCustomError("Image URL must end in .png, .jpg, or .jpeg")
+    //  }
 
   const submitNewSpotHandler = (e) => {
     e.preventDefault();
@@ -60,7 +59,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
       dispatch(
         (newSpot = spotsAction.createSpot(
           {
-            // ...newSpot,
             address,
             city,
             state,
@@ -76,7 +74,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
       )
         .then((res) => {
           history.push(`/spots/${res.id}`);
-          // dispatch(spotsAction.getSpotsBySpotId(res.id))
         })
         .catch(async (response) => {
           const data = await response.json();
@@ -86,7 +83,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
 
     if (submitType === "Edit") {
       dispatch(
-       newSpot = spotsAction.editUserSpot(
+        (newSpot = spotsAction.editUserSpot(
           {
             address,
             city,
@@ -99,13 +96,12 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
             price,
           },
           // { url: previewImage, preview: true },
-          newSpot.id)
-          )
-        .then((res) => {
-          console.log("res:", res)
-          // spotsAction.addImage(previewImage)
+          newSpot.id
+        ))
+      )
+        .then(() => {
           history.push(`/spots/${spotId}`);
-          dispatch(spotsAction.getSpotsBySpotId(+spotId))
+          dispatch(spotsAction.getSpotsBySpotId(+spotId));
         })
         .catch(async (res) => {
           const data = await res.json();
@@ -113,38 +109,36 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
         });
     }
 
-    const last4 = previewImage?.slice(-4);
-    const last5 = previewImage?.slice(-5);
+
 
     if (description.length < 30) {
       err.description = "Description needs a minimum of 30 characters";
-      setErrors(err);
-      //  setIsLoaded(false)
     }
-    if (
-      !previewImage &&
-      (last4 !== ".png" || last4 !== ".jpg" || last5 !== ".jpeg")
-    ) {
+    if (!previewImage) {
       err.previewImage = "Preview image is required.";
+    };
+
+    let splittedUrl = previewImage.split(".");
+    let LastSplittedUrl = splittedUrl[splittedUrl.length - 1];
+
+    if (
+     ( LastSplittedUrl !== "png" &&
+      LastSplittedUrl !== "jpg" &&
+      LastSplittedUrl !== "jpeg")
+    ) {
       err.url = "Image URL must end in .png, .jpg, or .jpeg";
-      // setErrors(err);
-      // setIsLoaded(false);
-      // return false
+    } else {
+      return
     }
+
     setCustomError(err);
-
-    // console.log("true or not:", Object.keys(errors).length > 0);
-    setErrors(err);
-
-    // console.log("description length: ===> ", description.length < 30);
-  };
-  console.log("Spots in spotform:::", spotId);
-  // console.log('submitType === "Edit":::', submitType === "Edit");
-  // console.log('submitType === "Create":::', submitType === "Create");
-  const onClickHandler = () => {
-    setIsLoaded(true);
   };
 
+  // if (Object.keys(errors).length > 0 || Object.keys(customErrors).length > 0) {
+  //  return;
+  // }
+  console.log("errrors:=====> ", errors);
+  console.log("custom errrors:=====> ", Object.keys(customErrors).length > 0);
   if (!newSpot) return null;
 
   return (
@@ -403,7 +397,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
             <button
               style={{ color: "white", background: "red" }}
               type="submit"
-              // onClick={() => onClickHandler}
             >
               Create Spot
             </button>

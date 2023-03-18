@@ -3,8 +3,6 @@ import './AllSpotsCard.css'
 
 const AllSpotsCard = ({ spot, isLoaded }) => {
 
-  // console.log("<=== All spot card: ==> ", spot)
-
   if (!spot) return null
 
   return (

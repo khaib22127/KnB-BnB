@@ -7,14 +7,14 @@ import "./SingleSpot.css";
 import SingleSpotReserve from "./SingleSpotReserve";
 import SingleSpotImages from "./SingleSpotImages";
 import Reviews from "../Review/Reviews";
+import * as reviewsActions from "../../store/review";
+
 
 const SingleSpot = () => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
 
   const singleSpot = useSelector((state) => state.spots.singleSpot);
-
-  // console.log("single spot121: ===> ", !singleSpot);
 
   useEffect(() => {
     dispatch(spotsAction.getSpotsBySpotId(+spotId));
@@ -39,7 +39,7 @@ const SingleSpot = () => {
       </div>
 
       <div>
-        {<Reviews/>}
+        {<Reviews spot={singleSpot}/>}
       </div>
 
     </div>

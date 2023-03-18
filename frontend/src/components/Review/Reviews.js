@@ -20,23 +20,25 @@ export const Popup = (props) => {
   );
 };
 
-const Reviews = () => {
+const Reviews = ({spot}) => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
 
-  const spot = useSelector((state) => state.spots.singleSpot);
+  // const spot = useSelector((state) => state.spots.singleSpot);
 
   const reviews = useSelector((state) => state.reviews.SpotReview);
 
-  // const userReviews = useSelector((state) => state.reviews);
+
   const currentUser = useSelector((state) => state.session.user);
-  // console.log("loooking for this", reviews);
-  console.log("current user: ", currentUser)
+
 
   useEffect(() => {
     dispatch(reviewsActions.getSpotReviews(+spotId));
-    // dispatch(reviewsActions.getUserReviews())
-  }, [dispatch, spotId]);
+    if (currentUser) {
+
+      dispatch(reviewsActions.getUserReviews())
+    }
+  }, [dispatch, spotId, currentUser]);
 
   if (!reviews) return null;
 

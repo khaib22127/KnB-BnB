@@ -9,7 +9,7 @@ import { Link, NavLink, useHistory } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
 import CurrentUserSpot from '../SpotsOfUser/CurrentUserSpot'
 
-function ProfileButton({ user, isLoaded }) {
+function ProfileButton({ user}) {
   const dispatch = useDispatch();
   const history =  useHistory()
   const [showMenu, setShowMenu] = useState(false);
@@ -129,6 +129,8 @@ const manageSpotClickHandler = (e) => {
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
+
+           
             </div>
           </>
         )}
