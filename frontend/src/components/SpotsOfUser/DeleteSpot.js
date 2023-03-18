@@ -9,7 +9,8 @@ const DeleteSpot = ({ spot }) => {
   const dispatch = useDispatch();
 
   const deleteButtonHandler = () => {
-  dispatch(spotsAction.deleteSpot(spot.id))
+  dispatch(spotsAction.deleteSpot(spot.id)).then(closeModal())
+
   };
 
   const cancelSubmit = () => {

@@ -87,8 +87,8 @@ export const getSpotsBySpotId = (spotId) => async (dispatch) => {
 // GET "/api/spots/current"
 export const getUserSpots = () => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/current`);
+  const data = await response.json();
   if (response.ok) {
-    const data = await response.json();
     dispatch(loadUserSpots(data));
   }
   return response;

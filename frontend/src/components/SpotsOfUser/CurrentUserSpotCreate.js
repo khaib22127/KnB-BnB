@@ -13,6 +13,7 @@ const CurrentUserSpotCreate = () => {
     description: "",
     price: "",
     previewImage: "",
+    preview: true
   };
 
   return (
