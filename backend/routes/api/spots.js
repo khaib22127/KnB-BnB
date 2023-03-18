@@ -7,7 +7,10 @@ const router = express.Router();
 const { check, query } = require("express-validator");
 const { userValidationErrors } = require("../../utils/validation");
 const { requireAuth, userPermission } = require("../../utils/auth");
-
+const {
+  smallestIdSpotImages,
+  spotAverageStarRating,
+} = require("../../utils/helperFunction");
 
 const validateSpot = [
   check("address")
@@ -81,7 +84,6 @@ const queryValidation = [
     .withMessage("Maximum price must be greater than or equal to 0"),
   userValidationErrors,
 ];
-
 
 // Get all spots
 // GET /api/spots
@@ -182,45 +184,30 @@ router.get("/", queryValidation, async (req, res, next) => {
   for (let i = 0; i < spot.length; i++) {
     let spots = spot[i];
 
-    let arrID = [];
-    let arrStars = [];
-    spots.Reviews.forEach((reviewStar) => {
-      arrStars.push(reviewStar.stars);
-    });
+    let smallestSpotImage = await smallestIdSpotImages(spots);
 
-    const starAvg = arrStars.reduce((a, b) => (a + b) / arrStars.length);
+    let spotAvgRating = await spotAverageStarRating(spots);
 
-    if (!spots.Reviews) {
-      return {};
+    if (spots.Reviews.length) {
+      spots.avgRating = spotAvgRating;
+      delete spots.Reviews;
     } else {
-      spots.avgRating = starAvg;
+      spots.avgRating = 0;
       delete spots.Reviews;
     }
-    spots.SpotImages.forEach((image) => {
-      arrID.push(image.id);
-    });
 
-    let smallestId = Math.min(...arrID);
-
-    let arry = spots.SpotImages.find((obj) => obj.id === smallestId);
-
-    if (!spots.SpotImages) return {};
-    if (arry.preview === true && arry.preview) {
-      spots.previewImage = arry.url;
+    if (spots.SpotImages.length) {
+      spots.previewImage = smallestSpotImage;
       delete spots.SpotImages;
-    } else {
-      return spots.SpotImages;
     }
   }
 
   res.json({ Spots: spot, page, size });
-
 });
 
 // get spots of current user
 // GET /api/spots/current
 router.get("/current", requireAuth, async (req, res) => {
-
   const spots = await Spot.findAll({
     where: {
       ownerId: req.user.id,
@@ -235,47 +222,34 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
+  let allSpots = [...spots];
 
-   let allSpots = [...spots];
+  let spot = [];
 
-   let spot = [];
-   let arrID = [];
-   let arrStars = [];
-   allSpots.forEach((spot1) => {
-     spot.push(spot1.toJSON());
-   });
+  allSpots.forEach((spot1) => {
+    spot.push(spot1.toJSON());
+  });
 
-   for (let i = 0; i < spot.length; i++) {
-     let spots = spot[i];
+  for (let i = 0; i < spot.length; i++) {
+    let spots = spot[i];
 
-     spots.Reviews.forEach((reviewStar) => {
-       arrStars.push(reviewStar.stars);
-     });
+    let smallestSpotImage = await smallestIdSpotImages(spots);
 
-     const starAvg = arrStars.reduce((a, b) => (a + b) / arrStars.length);
+    let spotAvgRating = await spotAverageStarRating(spots);
 
-     if (!spots.Reviews) {
-       return null;
-      } else {
-        spots.avgRating = starAvg;
-        delete spots.Reviews;
-      }
-      spots.SpotImages.forEach((image) => {
-        arrID.push(image.id);
-      });
+    if (spots.Reviews.length) {
+      spots.avgRating = spotAvgRating;
+      delete spots.Reviews;
+    } else {
+      spots.avgRating = 0;
+      delete spots.Reviews;
+    }
 
-     let smallestId = Math.min(...arrID);
-
-     let arry = spots.SpotImages.find((obj) => obj.id === smallestId);
-
-     if (!spots.SpotImages) return {};
-     if (arry.preview === true && arry.preview) {
-       spots.previewImage = arry.url;
-       delete spots.SpotImages;
-     } else {
-       return spots.SpotImages;
-     }
-   }
+    if (spots.SpotImages.length) {
+      spots.previewImage = smallestSpotImage;
+      delete spots.SpotImages;
+    }
+  }
 
   res.json({ Spots: spot });
 });
@@ -283,8 +257,6 @@ router.get("/current", requireAuth, async (req, res) => {
 // Get details of a Spot from an id
 // GET /api/spots/:spotId
 router.get("/:spotId", async (req, res) => {
- 
-
   let spot = await Spot.findByPk(req.params.spotId, {
     include: [
       {

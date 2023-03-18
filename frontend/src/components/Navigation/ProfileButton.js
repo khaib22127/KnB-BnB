@@ -12,6 +12,7 @@ function ProfileButton({ user}) {
   const dispatch = useDispatch();
   const history =  useHistory()
   const [showMenu, setShowMenu] = useState(false);
+   const [isLoaded, setIsLoaded] = useState(false);
   const ulRef = useRef();
 
   const openMenu = () => {
@@ -43,10 +44,11 @@ function ProfileButton({ user}) {
   };
 
 const manageSpotClickHandler = (e) => {
-  e.preventDefault();
+  // e.preventDefault();
   dispatch(spotsAction.getUserSpots())
-  closeMenu()
   history.push(`/spots/current`)
+  closeMenu()
+  setIsLoaded(!isLoaded)
 }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

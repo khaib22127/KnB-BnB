@@ -20,6 +20,7 @@ const CurrentUserSpot = () => {
 
 
   useEffect(() => {
+
     dispatch(spotsAction.getUserSpots())
       .then(() => {
         setIsLoaded(true);

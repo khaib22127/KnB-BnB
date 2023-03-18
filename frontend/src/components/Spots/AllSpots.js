@@ -22,15 +22,13 @@ const AllSpots = () => {
   return (
     <div className="AllSpots_container">
       {Object.values(spots).map((spot) => (
-        // <Link
-        //   key={`ka12: ${spot.id}`}
-        //   to={`/spots/${spot.id}`}
-        //   style={{ textDecoration: "none", color: "black" }}
-        // >
-        <div key={`ka12: ${spot.id}`}>
-          <AllSpotsCard spot={spot} isLoaded={isLoaded} />
-        </div>
-        // </Link>
+        <Link
+          key={`ka12: ${spot.id}`}
+          to={`/spots/${spot.id}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          {<AllSpotsCard spot={spot} isLoaded={isLoaded} />}
+        </Link>
       ))}
     </div>
   );
