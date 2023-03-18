@@ -22,9 +22,9 @@ const SingleSpot = () => {
   if (!singleSpot) return null;
 
   return (
-    <div className="main-single-container">
+    <div className="main-single-container" key={`single_spot-container${singleSpot.id}`}>
 
-      <div>
+      <div key={`${singleSpot.id}-single_spot-image`}>
         <SingleSpotImages spot={singleSpot} />
       </div>
 
