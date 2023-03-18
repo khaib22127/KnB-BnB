@@ -50,9 +50,6 @@ if (!ele) return null;
             currentUser.id ===
               ele.userId ? (
                 <div>
-                  {/* <button type="submit" onClick={deleteButtonHandler}>
-                    DELETE
-                  </button> */}
                    <OpenModalButton
                 buttonText="DELETE"
                 modalComponent={<DeleteConfirmationForm spotId={spotId}  reviewId={reviewId}/>}
