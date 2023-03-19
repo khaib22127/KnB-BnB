@@ -1,12 +1,21 @@
 .current-user-manage-spot-page {
-    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding-left: 4rem;
 }
 
 .current-user_spot-Image {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 1.5rem;
+        grid-row-gap: 2.5rem;
+        justify-items: center;
+        margin-top: 1rem;
+        padding-bottom: 2rem;
+        margin-bottom: 1rem;
+
 }
 
 .current-user-spot-image-container {

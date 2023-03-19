@@ -1,11 +1,11 @@
 .main-single-container {
-   padding: 50px;
+   padding: 4rem;
    padding-top: 0;
 }
 
 .singleSpot-detail_container {
     display: flex;
-    width: 70%;
+    width: 65%;
     /* border: black solid 2px; */
 }
 
@@ -16,4 +16,10 @@
     justify-content: space-between;
     align-items: flex-start;
     border-bottom: black solid 1px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.description-container {
+    margin: 1rem;
 }

@@ -18,10 +18,10 @@ function OpenModalMenuItem({
 
   return (
     <div
-      className="login--signout"
+      className="login-n-signout"
       style={{ cursor: "pointer", padding: "3px" }}
     >
-      <button className="login--signout-buton" onClick={onClick}>
+      <button className="login-n-signout-button" onClick={onClick}>
         {itemText}
       </button>
     </div>

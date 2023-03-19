@@ -1,9 +1,25 @@
+.post-delete_and-posted-review-container {
+    display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        /* width: 40%; */
+}
+
 
 .post-your-review-container {
     display: flex;
-    width: 200px;
-    padding: 10px;
+    width: 20rem;
     font-size: 22px;
     justify-content: space-between;
     align-items: flex-end;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+#post-your-review-btn {
+    color: white;
+    background: gray;
+    height: 30px;
+    width: 180px;
 }

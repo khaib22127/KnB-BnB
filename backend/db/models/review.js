@@ -23,28 +23,35 @@ module.exports = (sequelize, DataTypes) => {
       // Review.belongsTo(models.SpotImage, { through: models.Spot, foreignKey: 'spotId' })
     }
   }
-  Review.init({
-    userId: {
-      type: DataTypes.INTEGER,
+  Review.init(
+    {
+      userId: {
+        type: DataTypes.INTEGER,
+      },
+      spotId: {
+        type: DataTypes.INTEGER,
+      },
+      review: {
+        type: DataTypes.STRING,
+      },
+      stars: {
+        type: DataTypes.INTEGER,
+        validate: {
+          min: 1,
+          max: 5,
+          isInt: true,
+        },
+      },
     },
-    spotId: {
-      type: DataTypes.INTEGER
-    },
-    review: {
-      type: DataTypes.STRING
-    },
-    stars: {
-      type: DataTypes.INTEGER,
-
+    {
+      sequelize,
+      modelName: "Review",
+      scopes: {
+        currentSpotReview: {
+          attributes: {},
+        },
+      },
     }
-  }, {
-    sequelize,
-    modelName: 'Review',
-    scopes: {
-      currentSpotReview: {
-        attributes: {}
-      }
-    }
-  });
+  );
   return Review;
 };
