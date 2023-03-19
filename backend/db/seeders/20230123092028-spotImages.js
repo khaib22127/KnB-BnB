@@ -17,11 +17,6 @@ module.exports = {
           url: "https://img.staticmb.com/mbcontent//images/uploads/2022/12/Most-Beautiful-House-in-the-World.jpg",
           preview: true,
         },
-        // {
-        //   spotId: 1,
-        //   url: "https://images.pexels.com/photos/2581922/pexels-photo-2581922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        //   preview: true,
-        // },
         {
           spotId: 2,
           url: "https://images.pexels.com/photos/7501130/pexels-photo-7501130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",

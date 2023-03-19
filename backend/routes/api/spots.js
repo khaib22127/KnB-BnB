@@ -39,7 +39,7 @@ const validateSpot = [
     .withMessage("Description needs a minimum of 30 characters"),
   check("price")
     .exists()
-    .isInt({ min: 0 })
+    .isFloat({ min: 0 })
     .withMessage("Price per day is required"),
   userValidationErrors,
 ];
@@ -80,7 +80,7 @@ const queryValidation = [
     .withMessage("Minimum price must be greater than or equal to 0"),
   query("maxPrice")
     .optional({ checkFalsy: true })
-    .isInt({ min: 0 })
+    .isFloat({ min: 0 })
     .withMessage("Maximum price must be greater than or equal to 0"),
   userValidationErrors,
 ];

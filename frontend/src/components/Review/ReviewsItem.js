@@ -1,9 +1,7 @@
-
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import DeleteConfirmationForm from "../Card/DeleteConfirmationForm";
-
 
 const ReviewsItem = ({ ele }) => {
   const { spotId } = useParams();
@@ -12,7 +10,6 @@ const ReviewsItem = ({ ele }) => {
 
   let reviewId;
   const review1 = useSelector((state) => state.reviews.User);
-
 
   if (!review1) return null;
 
@@ -26,30 +23,34 @@ const ReviewsItem = ({ ele }) => {
     return (reviewId = elle.id);
   });
 
-
-if (!ele) return null;
+  if (!ele) return null;
 
   return (
     <div className="single-review-container">
-      <div key={`reviews${ele.id}`} className={`review-from`}>
-        <div className={`reviews${ele.id} newly-created-review`}>
-          <div>{ele.User?.firstName}</div>
-          <div>{ele.createdAt.slice(0, 10)}</div>
-          <div>{ele.review}</div>
-          {currentUser &&
-            currentUser.id ===
-              ele.userId ? (
-                <div>
-                   <OpenModalButton
-                buttonText="DELETE"
-                modalComponent={<DeleteConfirmationForm spotId={spotId}  reviewId={reviewId}/>}
-              />
+      {/* <div key={`reviews${ele.id}`} className={`review-from`}> */}
+      <div className={`reviews${ele.id} newly-created-review`}>
+        <div className="review_item-padding">{ele.User?.firstName}</div>
 
-                </div>
-              ): null}
+        <div className="review_item-padding date_">
+          {new Date(ele.createdAt).toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+          })}
         </div>
+        <div className="review_item-padding">{ele.review}</div>
+        {currentUser && currentUser.id === ele.userId ? (
+          <div>
+            <OpenModalButton
+              buttonText="DELETE"
+              modalComponent={
+                <DeleteConfirmationForm spotId={spotId} reviewId={reviewId} />
+              }
+            />
+          </div>
+        ) : null}
       </div>
     </div>
+    // </div>
   );
 };
 

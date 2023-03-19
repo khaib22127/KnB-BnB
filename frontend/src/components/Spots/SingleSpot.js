@@ -36,10 +36,7 @@ const SingleSpot = () => {
           <SingleSpotReserve singleSpot={singleSpot} />
         </div>
       </div>
-
-      <div>
-        {<Reviews spot={singleSpot}/>}
-      </div>
+        {<Reviews spot={singleSpot}/> }
 
     </div>
   );

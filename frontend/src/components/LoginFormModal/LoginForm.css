@@ -1,16 +1,28 @@
 .login-container {
     display: flex;
-    height: 15rem;
+    height: 17rem;
     width: 25rem;
     padding: 2%;
     align-items: center;
     flex-direction: column;
 }
 
-;
-
+.demo-user-btn-container {
+    text-decoration: underline;
+}
 
 
 .login-button-container {
     padding: 2%;
+}
+
+.input_user {
+    background: rgb(211, 233, 239);
+    width: 20rem;
+}
+
+.demo-user-btn-container{
+    display: flex;
+    justify-content: center;
+    color: rgb(31, 138, 138);
 }

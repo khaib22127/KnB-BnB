@@ -45,7 +45,7 @@ function LoginFormModal() {
   return (
     <>
       <div className="login-container">
-        <h1>Log In</h1>
+        <p>Log In</p>
         <form onSubmit={handleSubmit}>
           <ul>
             {errors.map((error, idx) => (
@@ -54,27 +54,26 @@ function LoginFormModal() {
           </ul>
           <div className="username-input-container">
             {/* <label> */}
-              {/* Username or Email */}
-              <input
-                type="text"
-                value={credential}
-                onChange={(e) => setCredential(e.target.value)}
-                required
-                placeholder="Username or Email"
-              />
+            {/* Username or Email */}
+            <input
+              className="input_user"
+              type="text"
+              value={credential}
+              onChange={(e) => setCredential(e.target.value)}
+              required
+              placeholder="Username or Email"
+            />
             {/* </label> */}
           </div>
           <div className="password-container">
-            {/* <label> */}
-              {/* Password */}
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-            {/* </label> */}
+            <input
+              className="input_user"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+            />
           </div>
           <br />
           <div className="login-button-container">
@@ -83,8 +82,12 @@ function LoginFormModal() {
             </button>
           </div>
           <br />
-          <div className="demo-user-btn-container">
-            <button onClick={demoUserSubmitHandler} type='submit' >Log in as Demo User</button>
+          <div
+            className="demo-user-btn-container"
+            onClick={demoUserSubmitHandler}
+            type="submit"
+          >
+            Demo User
           </div>
         </form>
       </div>
