@@ -23,6 +23,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const [errors, setErrors] = useState({});
   const [customErrors, setCustomError] = useState({});
 
+
   const submitNewSpotHandler = (e) => {
     e.preventDefault();
     setErrors({});
@@ -89,17 +90,11 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
       err.previewImage = "Preview image is required.";
     }
 
-    let splittedUrl = previewImage.split(".");
-    let LastSplittedUrl = splittedUrl[splittedUrl.length - 1];
 
-    if (
-      LastSplittedUrl !== "png" &&
-      LastSplittedUrl !== "jpg" &&
-      LastSplittedUrl !== "jpeg"
-    ) {
-      err.url = "Image URL must end in .png, .jpg, or .jpeg";
-    } else {
-      return;
+    if (!(previewImage.endsWith(".png" || ".jpg" || ".jpeg"))) {
+        err.url = "Image URL must end in .png, .jpg, or .jpeg";
+      } else {
+        return;
     }
 
     setCustomError(err);
@@ -306,9 +301,9 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
               id="preview-image"
               value={previewImage}
               onChange={(e) => setPreviewImage(e.target.value)}
-              // pattern='*.jpn'
+              // pattern={}
               placeholder="Preview Image URL"
-              required
+              // required
             ></input>
             {<label className="error-msg">{customErrors.previewImage}</label>}
           </div>

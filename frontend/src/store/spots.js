@@ -136,7 +136,7 @@ export const createSpot = (spot, image) => async (dispatch) => {
     }
     // dispatch(getSpotsBySpotId(data.id))
   }
-  return response;
+  // return response;
 };
 
 // //Thunk
