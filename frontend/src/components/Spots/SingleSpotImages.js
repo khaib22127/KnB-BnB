@@ -1,5 +1,6 @@
 import './SingleSpotImages.css'
 
+
 const SingleSpotImages = ({spot}) => {
 
 
@@ -21,6 +22,11 @@ const SingleSpotImages = ({spot}) => {
                     id={`spotImage-${spotUrl.id}`}
                     src={spotUrl.url}
                     alt={`spot-${spotUrl.id}-i`}
+                    onError={(e) => {
+                      e.target.src =
+                        "https://w7.pngwing.com/pngs/507/64/png-transparent-dashboard-default-home-house-main-page-outline-style-icon-thumbnail.png"
+                      e.onerror = null;
+                    }}
                   ></img>
                 </div>
               ))

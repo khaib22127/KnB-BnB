@@ -20,7 +20,8 @@ const AllSpots = () => {
   if (!spots) return null;
 
   return (
-    <div className="AllSpots_container">
+    <div className="AllSpot_main-conainter1">
+       <div className="AllSpots_container">
       {Object.values(spots).map((spot) => (
         <Link
           key={`ka12: ${spot.id}`}
@@ -31,6 +32,8 @@ const AllSpots = () => {
         </Link>
       ))}
     </div>
+    </div>
+
   );
 };
 

@@ -79,6 +79,7 @@ export const getSpotsBySpotId = (spotId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(loadSpotById(data));
+    return data;
   }
   return response;
 };
@@ -90,13 +91,14 @@ export const getUserSpots = () => async (dispatch) => {
   const data = await response.json();
   if (response.ok) {
     dispatch(loadUserSpots(data));
+    return data;
   }
   return response;
 };
 
 // //Thunk
 // // POST "/api/spots"
-// export const createSpot = (spot, spotId) => async (dispatch) => {
+// export const createSpot = (spot) => async (dispatch) => {
 //   const response = await csrfFetch("/api/spots", {
 //     method: "POST",
 //     headers: {
@@ -107,8 +109,8 @@ export const getUserSpots = () => async (dispatch) => {
 //   const data = await response.json();
 //   if (response.ok) {
 //     dispatch(addSpot(data.spot))
-// dispatch(createSpotImages(spotId));
-//     await dispatch(getSpotsBySpotId(data.id));
+// // dispatch(createSpotImages(data.id));
+//     // await dispatch(getSpotsBySpotId(data.id));
 //     return data;
 //   }
 //   return response;
@@ -117,40 +119,65 @@ export const getUserSpots = () => async (dispatch) => {
 //Thunk
 // POST "/api/spots"
 export const createSpot = (spot, image) => async (dispatch) => {
+  let {url, preview} = image
   const response = await csrfFetch("/api/spots", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(spot),
   });
-  const data = await response.json();
+
   if (response.ok) {
-    dispatch(addSpot(data.spot));
+    const data = await response.json();
+    dispatch(addSpot(data));
     const createSpotImages = await csrfFetch(`/api/spots/${data.id}/images`, {
       method: "POST",
-      body: JSON.stringify(image),
+      body: JSON.stringify({url, preview}),
     });
     if (createSpotImages.ok) {
       return data;
+    } else {
+      throw createSpotImages;
     }
-    // dispatch(getSpotsBySpotId(data.id))
+  } else {
+    return response;
   }
-  // return response;
 };
 
 // //Thunk
-// // POST "/api/spots/:spotId/images"
-// export const createSpotImages = (image, spotId) => async (dispatch) => {
-//   // let {url, preview} = image;
-//   const response = await csrfFetch(`/api/spots/${image.id}/images`, {
+// // WORKING
+// // POST "/api/spots"
+// export const createSpot = (spot, image) => async (dispatch) => {
+//   const response = await csrfFetch("/api/spots", {
 //     method: "POST",
-//     body: JSON.stringify(image),
+//     body: JSON.stringify(spot),
 //   });
 //   const data = await response.json();
 //   if (response.ok) {
-//     dispatch(addImage(data.image))
-//     // await dispatch(getSpotsBySpotId(image.id));
+//     dispatch(addSpot(data.spot));
+//     const createSpotImages = await csrfFetch(`/api/spots/${data.id}/images`, {
+//       method: "POST",
+//       body: JSON.stringify(image),
+//     });
+//     if (createSpotImages.ok) {
+//       return data;
+//     }
+//     // dispatch(getSpotsBySpotId(data.id))
+//   }
+//   return response;
+// };
+
+//Thunk
+// POST "/api/spots/:spotId/images"
+// export const createSpotImages = (image) => async (dispatch) => {
+//   let {spotId, url, preview} = image;
+//   if (!preview) preview = false
+//   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+//     method: "POST",
+//     body: JSON.stringify({url, preview}),
+//   });
+//   const data = await response.json();
+//   if (response.ok) {
+//     dispatch(addImage(data))
+//     // await dispatch(getSpotsBySpotId(spot.id));
 //     return data;
 //   }
 //   return response;
@@ -206,6 +233,12 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
 
     case UPDATE_SPOT_OF_USER:
+      return newState;
+
+    case CREATE_SPOT_IMAGE:
+      // newState.getSpotsBySpotId.SpotImages.concat([action.image])
+
+      // newState.spots.singleSpot.SpotImages = ([action.image])
       return newState;
 
     case REMOVE_SPOT:
