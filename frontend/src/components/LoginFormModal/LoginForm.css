@@ -14,8 +14,17 @@
 
 .login-button-container {
     padding: 2%;
+        display: flex;
+        justify-content: center;
 }
 
+#login_12-btn {
+    width: 21rem;
+    height: 3rem;
+    background-color: red;
+    border: 2px solid black;
+    color: white;
+}
 .input_user {
     background: rgb(211, 233, 239);
     width: 20rem;

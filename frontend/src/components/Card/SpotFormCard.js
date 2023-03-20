@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 import * as spotsAction from "../../store/spots";
 import "./SpotFormCard.css";
 
@@ -18,21 +18,61 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const [description, setDescription] = useState(newSpot.description);
   const [price, setPrice] = useState(newSpot.price);
   const [previewImage, setPreviewImage] = useState(newSpot.previewImage);
-
-  const [isLoaded, setIsLoaded] = useState(false);
   const [errors, setErrors] = useState({});
-  const [customErrors, setCustomError] = useState({});
+  const currentUser = useSelector((state) => state.session.user);
 
+  if (!currentUser) return <Redirect to="/" />;
 
-  const submitNewSpotHandler = (e) => {
+  const validateError = () => {
+    let errors = {};
+    if (!address) {
+      errors.address = "Address is required";
+    }
+    if (!city) {
+      errors.city = "City is required";
+    }
+    if (!state) {
+      errors.state = "State is required";
+    }
+    if (!country) {
+      errors.country = "Country is required";
+    }
+    if (!lat) {
+      errors.lat = "Latitude is required";
+    }
+    if (!name) {
+      errors.name = "Name is required";
+    }
+    if (!lng) {
+      errors.lng = "Longitude is required";
+    }
+    if (!price) {
+      errors.price = "Price is required";
+    }
+
+    if (description.length < 30) {
+      errors.description = "Description needs a minimum of 30 characters";
+    }
+    if (!previewImage) {
+      errors.previewImage = "Preview image is required.";
+    } else if (!previewImage.match(/(.*\.(?:png|jpg|jpeg))/i)) {
+      errors.url = "Image URL must end in .png, .jpg, or .jpeg";
+    }
+
+    return errors;
+  };
+
+  const submitNewSpotHandler = async (e) => {
     e.preventDefault();
     setErrors({});
-    setCustomError([]);
-    let err = { ...customErrors };
+    const err = validateError();
+    if (!err) return;
+
+    if (Object.keys(err).length > 0) return setErrors(err);
 
     if (submitType === "Create") {
-      dispatch(
-        (newSpot = spotsAction.createSpot(
+      newSpot = await dispatch(
+        spotsAction.createSpot(
           {
             address,
             city,
@@ -44,8 +84,8 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
             description,
             price,
           },
-          { url: previewImage, preview: true }
-        ))
+          { url: previewImage, preview: true },
+        )
       )
         .then((res) => {
           history.push(`/spots/${res.id}`);
@@ -57,7 +97,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
     }
 
     if (submitType === "Edit") {
-      dispatch(
+     return dispatch(
         (newSpot = spotsAction.editUserSpot(
           {
             address,
@@ -75,7 +115,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
       )
         .then(() => {
           history.push(`/spots/${spotId}`);
-          dispatch(spotsAction.getSpotsBySpotId(+spotId));
+          // dispatch(spotsAction.getSpotsBySpotId(+spotId));
         })
         .catch(async (res) => {
           const data = await res.json();
@@ -83,21 +123,6 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
         });
     }
 
-    if (description.length < 30) {
-      err.description = "Description needs a minimum of 30 characters";
-    }
-    if (!previewImage) {
-      err.previewImage = "Preview image is required.";
-    }
-
-
-    if (!(previewImage.endsWith(".png" || ".jpg" || ".jpeg"))) {
-        err.url = "Image URL must end in .png, .jpg, or .jpeg";
-      } else {
-        return;
-    }
-
-    setCustomError(err);
   };
 
   if (!newSpot) return null;
@@ -301,11 +326,11 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
               id="preview-image"
               value={previewImage}
               onChange={(e) => setPreviewImage(e.target.value)}
-              // pattern={}
+              // pattern="/(https?:\/\/.*\.(?:png|jpg))/i"
               placeholder="Preview Image URL"
               // required
             ></input>
-            {<label className="error-msg">{customErrors.previewImage}</label>}
+            {<label className="error-msg">{errors.previewImage}</label>}
           </div>
           <div className="url_input">
             <label htmlFor="img-url-2"></label>
@@ -316,7 +341,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
               // onChange={(e) => setUrl(e.target.value)}
               placeholder="Image URL"
             ></input>
-            {<label className="error-msg">{customErrors.url}</label>}
+            {<label className="error-msg">{errors.url}</label>}
           </div>
 
           <div className="url_input">
@@ -353,13 +378,15 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
           </div>
         </div>
 
-        {!isLoaded && (
-          <div className="create-spot-submit-btn">
-            <button style={{ color: "white", background: "red" }} type="submit">
-              Create Spot
-            </button>
-          </div>
-        )}
+        <div className="create-spot-submit-btn">
+          <button
+            style={{ color: "white", background: "red" }}
+            type="submit"
+
+          >
+            Create Spot
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -9,7 +9,9 @@
     grid-template-columns: repeat(auto-fit, minmax(0, min((100%/var(--min-cols) - var(--grid-column-gap)*(var(--min-cols) - 1)/var(--min-cols)), max(var(--cols-min-width), (100%/var(--max-cols) - var(--grid-column-gap)*(var(--max-cols) - 1)/var(--max-cols))))));
     gap: $grid-row-gap $grid-column-gap;
 } */
-
+.AllSpot_main-conainter1{
+    display: flex;
+}
 .AllSpots_container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

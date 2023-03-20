@@ -1,12 +1,48 @@
+.main-_sign_up-container {
+    display: flex;
+}
+
+
 .sign-up-container {
     display: flex;
-        height: 17rem;
-        align-items: center;
-        width: 25rem;
+        height: 25rem;
+        width: 20rem;
         flex-direction: column;
-        padding: 30%
+        padding: 2rem;
+        align-items: center;
+        justify-content: center;
+}
+
+.sign-up_padding {
+padding-top: 2px;
+    padding-bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-UP-01 {
+    display: flex;
+        flex-direction: column;
+        align-items: center;
+}
+
+.all_input_sign-box {
+width: 300px;
+background-color: rgb(203, 239, 239);
 }
 
 .signup-summit-btn{
     padding: 1rem;
+        display: flex;
+        justify-content: center;
+        width: 20rem;
+        height: 50px;
+}
+
+#signup_btn_n {
+width: 20rem;
+background-color: red;
+color: white;
+border: 2px solid black;
 }

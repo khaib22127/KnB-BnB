@@ -77,7 +77,7 @@ function LoginFormModal() {
           </div>
           <br />
           <div className="login-button-container">
-            <button disabled={isDiabled} type="submit">
+            <button id="login_12-btn" disabled={isDiabled} type="submit">
               Log In
             </button>
           </div>

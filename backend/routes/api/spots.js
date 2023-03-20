@@ -301,6 +301,9 @@ router.get("/:spotId", async (req, res) => {
     result[0].avgStarRating = [];
   }
 
+
+  console.log("backend", spot.SpotImages);
+
   let data = {};
 
   data.spot = data;
