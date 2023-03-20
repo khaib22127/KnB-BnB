@@ -14,7 +14,6 @@ const SingleSpot = () => {
   const dispatch = useDispatch();
 
   const singleSpot = useSelector((state) => state.spots.singleSpot);
-
   useEffect(() => {
     dispatch(spotsAction.getSpotsBySpotId(+spotId));
   }, [dispatch, spotId]);

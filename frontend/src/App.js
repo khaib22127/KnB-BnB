@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
+import * as spotsAction from "./store/spots"
 import Navigation from "./components/Navigation/Navigation";
 import AllSpots from "./components/Spots/AllSpots";
 import SingleSpot from "./components/Spots/SingleSpot";
@@ -14,7 +15,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    // dispatch(spotsAction.getAllSpots()).then(() => setIsLoaded(true));
+    dispatch(spotsAction.getAllSpots()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
