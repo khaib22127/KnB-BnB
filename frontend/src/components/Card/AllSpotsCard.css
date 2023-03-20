@@ -1,14 +1,4 @@
-/* @mixin grid-min-max-cols($min-cols, $max-cols, $cols-min-width, $grid-row-gap: 0px, $grid-column-gap: 0px) {
-    --min-cols: #{$min-cols};
-    --max-cols: #{$max-cols};
-    --cols-min-width: #{$cols-min-width};
-    --grid-row-gap: #{$grid-row-gap};
-    --grid-column-gap: #{$grid-column-gap};
 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, min((100%/var(--min-cols) - var(--grid-column-gap)*(var(--min-cols) - 1)/var(--min-cols)), max(var(--cols-min-width), (100%/var(--max-cols) - var(--grid-column-gap)*(var(--max-cols) - 1)/var(--max-cols))))));
-    gap: $grid-row-gap $grid-column-gap;
-} */
 .AllSpot_main-conainter1{
     display: flex;
 }
@@ -56,3 +46,28 @@
         max-width: 600px;
     }
 } */
+
+
+.mouse-over_text {
+    position: relative;
+    display: inline-block;
+ 
+
+}
+
+.mouse-over_text .mouse-over_text-tool {
+    visibility: hidden;
+    width: 100px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+
+.mouse-over_text:hover .mouse-over_text-tool {
+    visibility: visible;
+}

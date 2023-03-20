@@ -43,11 +43,14 @@ const Reviews = ({ spot }) => {
         {spot.numReviews === 0 && (
           <div>
             <div className="no-review_yet">★New</div>
-            <div id="be-the-first-to-post" >Be the first to post a review!</div>
+            {/* <div id="be-the-first-to-post">Be the first to post a review!</div> */}
           </div>
         )}
         {<NumReviewAvgRating singleSpot={spot} />}
       </div>
+        {currentUser?.id !== spot?.ownerId && spot.numReviews === 0 && (
+          <div id="be-the-first-to-post">Be the first to post a review!</div>
+        )}
 
       <div>
         {!currentUser ||
