@@ -21,6 +21,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
   const [errors, setErrors] = useState({});
   const currentUser = useSelector((state) => state.session.user);
 
+
   if (!currentUser) return <Redirect to="/" />;
 
   const validateError = () => {
@@ -84,7 +85,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
             description,
             price,
           },
-          { url: previewImage, preview: true },
+          { url: previewImage, preview: true }
         )
       )
         .then((res) => {
@@ -97,7 +98,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
     }
 
     if (submitType === "Edit") {
-     return dispatch(
+      return dispatch(
         (newSpot = spotsAction.editUserSpot(
           {
             address,
@@ -122,8 +123,24 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
           if (data && data.errors) setErrors(data.errors);
         });
     }
-
   };
+
+  let isDisable;
+  if (
+    !address ||
+    !city ||
+    !state ||
+    !country ||
+    !lat ||
+    !lng ||
+    !name ||
+    !description ||
+    !price
+  ) {
+     (isDisable = true);
+  } else {
+    isDisable = false;
+  }
 
   if (!newSpot) return null;
 
@@ -382,7 +399,7 @@ const SpotFormCard = ({ newSpot, submitType, formType }) => {
           <button
             style={{ color: "white", background: "red" }}
             type="submit"
-
+            disabled={isDisable}
           >
             Create Spot
           </button>
