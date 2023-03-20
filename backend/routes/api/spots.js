@@ -302,8 +302,6 @@ router.get("/:spotId", async (req, res) => {
   }
 
 
-  console.log("backend", spot.SpotImages);
-
   let data = {};
 
   data.spot = data;
