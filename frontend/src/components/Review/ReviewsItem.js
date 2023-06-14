@@ -2,14 +2,21 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import DeleteConfirmationForm from "../Card/DeleteConfirmationForm";
+import { useModal } from "../../context/Modal";
+import ReviewCreatePost from "./ReviewsCreatePost";
+import ReviewForm from "../Form/ReviewForm";
 
 const ReviewsItem = ({ ele }) => {
   const { spotId } = useParams();
-
+//  const { closeModal } = useModal();
+    const { setModalContent } = useModal();
   const currentUser = useSelector((state) => state.session.user);
 
   let reviewId;
   const review1 = useSelector((state) => state.reviews.User);
+
+  // const userReview = useSelector(state=> state.reviews.User[spotId])
+  // console.log("USER REVIEW:::", ele);
 
   if (!review1) return null;
 
@@ -38,7 +45,7 @@ const ReviewsItem = ({ ele }) => {
           })}
         </div>
         <div className="review_item-padding">{ele.review}</div>
-        {currentUser && currentUser.id === ele.userId ? (
+        {/* {currentUser && currentUser.id === ele.userId ? (
           <div>
             <OpenModalButton
               buttonText="DELETE"
@@ -47,7 +54,22 @@ const ReviewsItem = ({ ele }) => {
               }
             />
           </div>
-        ) : null}
+        ) : null} */}
+        {currentUser && currentUser.id === ele.userId && (
+          <div>
+            <button
+            onClick={()=> setModalContent(<ReviewForm userReview={ele} submitType="Edit" formType="Edit your review" spotId={spotId} />)}
+            >Edit</button>
+
+              <OpenModalButton
+                buttonText="DELETE"
+                modalComponent={
+                  <DeleteConfirmationForm spotId={spotId} reviewId={reviewId} />
+                }
+              />
+
+          </div>
+        )}
       </div>
     </div>
     // </div>

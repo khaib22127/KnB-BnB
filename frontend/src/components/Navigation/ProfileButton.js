@@ -51,6 +51,14 @@ const manageSpotClickHandler = (e) => {
   setIsLoaded(!isLoaded)
 }
 
+const bookingSpotClickHandler = (e) => {
+  // e.preventDefault();
+  // dispatch(spotsAction.getUserSpots());
+  history.push(`/spots/booking`);
+  closeMenu();
+  setIsLoaded(!isLoaded);
+};
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -78,19 +86,38 @@ const manageSpotClickHandler = (e) => {
                 <p>{user.email}</p>
               </div>
               {showMenu && (
-                <div
-                  style={{
-                    borderBottom: "black 2px solid",
-                    padding: "5px",
-                  }}
-                >
-                  <NavLink
-                    id="manage-spots-selection"
-                    to={`/spots/current`}
-                    onClick={manageSpotClickHandler}
+                <div>
+
+                  <div
+                    style={{
+                      borderBottom: "black 2px solid",
+                      padding: "5px",
+                    }}
                   >
-                    Manage Spots
-                  </NavLink>
+                    <NavLink
+                      id="manage-spots-selection"
+                      to={`/spots/booking`}
+                      onClick={bookingSpotClickHandler}
+                    >
+                      Trips
+                    </NavLink>
+                  </div>
+
+                  <div
+                    style={{
+                      borderBottom: "black 2px solid",
+                      padding: "5px",
+                    }}
+                  >
+                    <NavLink
+                      id="manage-spots-selection"
+                      to={`/spots/current`}
+                      onClick={manageSpotClickHandler}
+                    >
+                      Manage Spots
+                    </NavLink>
+                  </div>
+
                 </div>
               )}
 
@@ -129,8 +156,6 @@ const manageSpotClickHandler = (e) => {
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
-
-
             </div>
           </>
         )}
