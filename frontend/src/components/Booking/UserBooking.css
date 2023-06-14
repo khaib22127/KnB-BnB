@@ -1,4 +1,23 @@
-.user-booking_pic{
+.user_booking-container {
+    display: flex;
+
+}
+
+.user_inner-booking-container {
+    height: 60rem;
+    width: 24rem;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+.user-booking_pic {
     height: 20rem;
     width: 20rem;
+    border-radius: 15px;
 }

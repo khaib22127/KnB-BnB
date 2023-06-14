@@ -30,6 +30,8 @@ let createNewBooking = {
   endDate: "",
 }
 
+
+
   return (
     <>
       <div className="reserve-box_container">
