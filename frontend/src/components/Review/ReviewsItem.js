@@ -8,8 +8,8 @@ import ReviewForm from "../Form/ReviewForm";
 
 const ReviewsItem = ({ ele }) => {
   const { spotId } = useParams();
-//  const { closeModal } = useModal();
-    const { setModalContent } = useModal();
+  //  const { closeModal } = useModal();
+  const { setModalContent } = useModal();
   const currentUser = useSelector((state) => state.session.user);
 
   let reviewId;
@@ -58,16 +58,30 @@ const ReviewsItem = ({ ele }) => {
         {currentUser && currentUser.id === ele.userId && (
           <div>
             <button
-            onClick={()=> setModalContent(<ReviewForm userReview={ele} submitType="Edit" formType="Edit your review" spotId={spotId} />)}
-            >Edit</button>
+              onClick={() =>
+                setModalContent(
+                  <ReviewForm
+                    userReview={ele}
+                    submitType="Edit"
+                    formType="Edit your review"
+                    spotId={spotId}
+                  />
+                )
+              }
+            >
+              Edit
+            </button>
 
-              <OpenModalButton
-                buttonText="DELETE"
-                modalComponent={
-                  <DeleteConfirmationForm spotId={spotId} reviewId={reviewId} />
-                }
-              />
-
+            <OpenModalButton
+              buttonText="DELETE"
+              modalComponent={
+                <DeleteConfirmationForm
+                  spotId={spotId}
+                  reviewId={reviewId}
+                  deleteType="Review"
+                />
+              }
+            />
           </div>
         )}
       </div>

@@ -4,16 +4,15 @@ import DatePicker from "react-datepicker";
 import { useModal } from "../../context/Modal";
 import * as bookingActions from "../../store/booking";
 import "react-datepicker/dist/react-datepicker.css";
+import "./BookingForm.css";
 // import moment from "moment";
 
 function BookingForm({ submitType, spotBookings, booking, spotId }) {
-//   const [date, setDate] = useState(new Date());
+  //   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(booking.startDate);
   const [endDate, setEndDate] = useState(booking.endDate);
   const [errors, setErrors] = useState({});
-
-
-
+  const [isClearable, setIsClearable] = useState(false);
 
   const { closeModal } = useModal();
   const dispatch = useDispatch();
@@ -44,122 +43,68 @@ function BookingForm({ submitType, spotBookings, booking, spotId }) {
     }
   };
 
-let startBookedDate;
-let endBookedDate;
+  let startBookedDate;
+  let endBookedDate;
 
-  spotBookings.forEach(booking => {
+  spotBookings.forEach((booking) => {
     startBookedDate = new Date(booking.startDate).toUTCString();
-     endBookedDate = new Date(booking.endDate).toUTCString();
-  })
-
+    endBookedDate = new Date(booking.endDate).toUTCString();
+  });
 
   const excludeEndDates = [startDate];
-  console.log("booking start date====> ", startBookedDate)
-  console.log("exclude end date ===> ", spotBookings.startDate);
-  //   const handleStartDateChange = (date) => {
-  //     setStartDate(date);
-  //   };
-
-  //   const handleEndDateChange = (date) => {
-  //     setEndDate(date);
-  //   };
-
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     console.log("Booking Start Date:", startDate);
-  //     console.log("Booking End Date:", endDate);
-  //   };
-
-  //   // set minimum selectable date 2 days after the start date
-  //   const minEndDate = new Date(endDate.setDate(startDate.getDate() + 1));
 
   const excludeIntervals = [
     { start: new Date(startBookedDate), end: new Date(endBookedDate) },
-
   ];
 
+  const handleStartChange = (date) => {
+    setStartDate(date);
+    setIsClearable(true);
+  };
+
+   const handleEndChange = (date) => {
+     setEndDate(date);
+     setIsClearable(true);
+   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <div>
-        Start Date:
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          minDate={new Date()}
-        />
-      </div>
-      <div>
-        End Date:
-        <DatePicker
-          selected={endDate}
-          onChange={handleEndDateChange}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={minEndDate}
-        />
-      </div> */}
+    <div className="datepicker-class_container">
+      <form onSubmit={handleSubmit}>
+        <p id="book-form-title">{submitType} Booking</p>
 
-      {/* <div>
-        Start Date:
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          minDate={new Date()}
-        />
-      </div>
+        <div className="datepicker">
+          Start Date:
+          <DatePicker
+            selectsStart
+            placeholderText="Select Start Date"
+            selected={startDate}
+            onChange={handleStartChange}
+            startDate={startDate}
+            minDate={new Date()}
+            excludeDateIntervals={excludeIntervals}
+            isClearable={isClearable}
+          />
+        </div>
 
-      <div>
-        End Date:
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={minEndDate}
-        />
-      </div> */}
+        <div className="datepicker">
+          End Date:
+          <DatePicker
+            placeholderText="Select End Date"
+            selectsEnd
+            selected={endDate}
+            onChange={handleEndChange}
+            endDate={endDate}
+            startDate={startDate}
+            minDate={new Date()}
+            excludeDateIntervals={excludeIntervals}
+            excludeDates={excludeEndDates}
+            isClearable={isClearable}
+          />
+        </div>
 
-      <p id="book-form-title">{submitType} Booking</p>
-
-      <div>
-        Start Date:
-        <DatePicker
-          selectsStart
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          startDate={startDate}
-          minDate={new Date()}
-          excludeDateIntervals={excludeIntervals}
-          //   excludeDates={spotBookings.map(
-          //     (bookedDate) => new Date(bookedDate.endDate)
-          //   )}
-        />
-      </div>
-
-      <div>
-        End Date:
-        <DatePicker
-          selectsEnd
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          endDate={endDate}
-          startDate={startDate}
-          minDate={startDate}
-          excludeDates={excludeEndDates}
-        />
-      </div>
-
-      <button type="submit">Submit</button>
-    </form>
+        <button id="booking_button" type="submit">Submit</button>
+      </form>
+    </div>
   );
 }
 
