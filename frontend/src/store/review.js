@@ -6,13 +6,14 @@ import { restoreUser } from "./session";
 const GET_SPOT_REVIEWS = "review/GET_SPOT_REVIEWS";
 const GET_USER_REVIEWS = "review/GET_USER_REVIEWS";
 const CREATE_REVIEW_FOR_SPOT = "review/CREATE_REVIEW_FOR_SPOT";
+const UPDATE_REVIEW = "review/UPDATE_REVIEW";
 const DELETE_SPOT_REVIEW = "review/DELETE_SPOT_REVIEW";
 
 // Action Creator
 export const loadSpotReviews = (reviews) => {
   return {
     type: GET_SPOT_REVIEWS,
-    reviews
+    reviews,
   };
 };
 
@@ -27,6 +28,13 @@ export const creatReviewForSpot = (review) => {
   return {
     type: CREATE_REVIEW_FOR_SPOT,
     review,
+  };
+};
+
+export const updateSpotReview = (reviewId) => {
+  return {
+    type: UPDATE_REVIEW,
+    reviewId,
   };
 };
 
@@ -47,7 +55,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     // dispatch(restoreUser());
     return data;
   }
-  return response
+  return response;
 };
 
 //Thunk
@@ -76,6 +84,20 @@ export const createSpotReview = (review, spotId) => async (dispatch) => {
   return response;
 };
 
+// PUT /api/reviews/:reviewId
+export const editReview = (review, reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "PUT",
+    body: JSON.stringify(review),
+  });
+  const data = await response.json();
+  if (response.ok) {
+    dispatch(updateSpotReview(data.review));
+    return data;
+  }
+  return response;
+};
+
 // DELETE /api/reviews/:reviewId
 export const deleteReviewFromSpot = (reviewId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
@@ -86,7 +108,7 @@ export const deleteReviewFromSpot = (reviewId) => async (dispatch) => {
     dispatch(deletingSpotReview(reviewId));
     return data;
   }
-  return response
+  return response;
 };
 
 const initialState = { SpotReview: {}, User: {} };
@@ -94,19 +116,21 @@ const initialState = { SpotReview: {}, User: {} };
 const reviewReducer = (state = initialState, action) => {
   let newState = { ...state };
   switch (action.type) {
-
     case GET_SPOT_REVIEWS:
       const spotReviews = action.reviews;
       newState.SpotReview = normalizingData(spotReviews);
       return newState;
 
-case GET_USER_REVIEWS:
-  const userReviews = action.reviews.Reviews
-  newState.User = (userReviews);
-  return newState;
+    case GET_USER_REVIEWS:
+      const userReviews = action.reviews.Reviews;
+      newState.User = normalizingReviewBySpot(userReviews);
+      return newState;
 
     case CREATE_REVIEW_FOR_SPOT:
       // return {newState, [action.type.id]: {...action.review}}
+      return newState;
+
+    case UPDATE_REVIEW:
       return newState;
 
     case DELETE_SPOT_REVIEW:
@@ -116,6 +140,12 @@ case GET_USER_REVIEWS:
     default:
       return state;
   }
+};
+
+export const normalizingReviewBySpot = (data) => {
+  const obj = {};
+  data.forEach((ele) => (obj[ele.spotId] = ele));
+  return obj;
 };
 
 export default reviewReducer;

@@ -3,25 +3,26 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as reviewsActions from "../../store/review";
 import * as spotsAction from "../../store/spots";
-import ReviewsCreatePostStarInput from "./ReviewsCreatePostStarInput";
-import "./ReviewsCreatePost.css";
+import ReviewStarInput from "./ReviewStarInput";
+import "./ReviewForm.css"
 
-const ReviewCreatePost = ({ spot }) => {
+const ReviewForm = ({ spot, userReview, submitType, formType, spotId }) => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
-  const [review, setReview] = useState("");
-  const [stars, setStars] = useState("");
+  const [review, setReview] = useState(userReview.review);
+  const [stars, setStars] = useState(userReview.stars);
   const [errors, setErrors] = useState([]);
 
   const number1 = (num) => {
     return Number(num);
   };
 
-  const submitReviewHandler = (e) => {
+  const submitReviewHandler = async (e) => {
     e.preventDefault();
     setErrors([]);
 
-    return dispatch(
+    if (submitType === "Create") {
+          return dispatch(
       reviewsActions.createSpotReview(
         {
           review,
@@ -32,14 +33,36 @@ const ReviewCreatePost = ({ spot }) => {
     )
       .then(() => {
         closeModal();
-        dispatch(reviewsActions.getSpotReviews(spot.id));
-        dispatch(spotsAction.getSpotsBySpotId(spot.id));
-        dispatch(reviewsActions.getUserReviews());
+        // dispatch(reviewsActions.getSpotReviews(spot.id));
+        // dispatch(spotsAction.getSpotsBySpotId(spot.id));
+        // dispatch(reviewsActions.getUserReviews());
       })
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) return setErrors(data.errors);
       });
+    }
+
+     if (submitType === "Edit") {
+      userReview = await dispatch(
+        reviewsActions.editReview(
+          {
+            review,
+            stars,
+          },
+         userReview.id
+        )
+      )
+        .then(() => {
+          closeModal();
+          dispatch(spotsAction.getSpotsBySpotId(spotId));
+          dispatch(reviewsActions.getSpotReviews(spotId));
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) return setErrors(data.errors);
+        });
+    }
   };
 
   const onChange = (stars) => {
@@ -54,14 +77,13 @@ const ReviewCreatePost = ({ spot }) => {
   }
 
   return (
-    <div>
-      <div className="create-review-container">
-        <p>How was your stay?</p>
+    <div className="Review_form-main-container">
         <form
           onSubmit={submitReviewHandler}
-          className="Review-pop_Up"
-          id="myPopup"
         >
+      <div className="review-form-inner-container">
+        <h1>{formType}</h1>
+        <p>How was your stay?</p>
           <ul>
             {Object.values(errors).map((error, idx) => (
               <li style={{ color: "red" }} key={idx}>
@@ -85,7 +107,7 @@ const ReviewCreatePost = ({ spot }) => {
           <br />
 
           <div className="star-container">
-            <ReviewsCreatePostStarInput
+            <ReviewStarInput
               clicked={false}
               onChange={onChange}
               setStars={setStars}
@@ -101,10 +123,10 @@ const ReviewCreatePost = ({ spot }) => {
               Submit Your Review
             </button>
           </div>
-        </form>
       </div>
+        </form>
     </div>
   );
 };
 
-export default ReviewCreatePost;
+export default ReviewForm;

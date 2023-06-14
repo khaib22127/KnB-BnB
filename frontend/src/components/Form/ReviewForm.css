@@ -1,0 +1,10 @@
+.Review_form-main-container {
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(242, 235, 235);
+    border-radius: 20px;
+    border: none;
+}

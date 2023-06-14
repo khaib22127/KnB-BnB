@@ -63,3 +63,14 @@ z-index: 6;
 display: flex;
 align-items: center;
 }
+
+#manage-spots-selection {
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+#manage-spots-selection:hover{
+    background-color: rgb(236, 240, 240);
+}
